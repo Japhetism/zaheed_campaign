@@ -1,0 +1,7 @@
+[
+    {"name": "General", "value": "General"},
+    {"name": "OBC", "value": "OBC"},
+    {"name": "SC", "value": "SC"},
+    {"name": "ST", "value": "ST"},
+    {"name": "Minority", "value": "Minority"}
+]
