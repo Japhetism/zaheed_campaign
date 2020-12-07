@@ -1,11 +1,98 @@
 import './landingPage.css';
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link, Redirect } from 'react-router-dom'
+import { authentication } from '../../mixins/api'
+import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
+import NotificationToast from '../../components/notification-alert'
 
-function LandingPage() {
-  const [showRegister, setShowRegister] = React.useState(false)
+function LandingPage(props) {
+
+  const firstRender = useRef(true)
+  const [showRegister, setShowRegister] = useState(false)
+  const [formData, setFormData] = useState({
+    loginUsername: '',
+    loginPassword: '',
+    registerUsername: '',
+    registerPassword: '',
+    errorMessage: '',
+    successMessage: '',
+    disableLoginButton: true,
+    disableRegisterButton: true,
+    redirect: false
+  })
+
   const onRegisterLinkClick = () => setShowRegister(true)
   const onLoginLinkClick = () => setShowRegister(false)
+
+  const updateFormData = e => {
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
+
+  const loginFormValidation = () => {
+    if(formData.loginUsername && formData.loginPassword) {
+      return false;
+    }else{
+      return true
+    }
+  }
+
+  const registerFormValidation = () => {
+    if(formData.registerUsername && formData.registerPassword) {
+      return false;
+    }else{
+      return true
+    }
+  }
+
+  const handleLoginFormSubmission = async () => {
+    setFormData(prevState => ({...prevState, errorMessage: '', disableLoginButton: true}))
+    const loginFormData = {
+      password: formData.loginPassword,
+      phoneNumber: formData.loginUsername
+    }
+    const loginResponseObj = await authentication.loginUser(loginFormData)
+    const { status, response } = loginResponseObj
+    if(status === SUCCESS_STATUS) {
+
+    }else{
+      setFormData(prevState => ({...prevState, errorMessage: response.error, disableLoginButton: false}))
+    }
+  }
+
+  const handleRegisterFormSubmission = async (e) => {
+    setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
+    console.log(formData)
+    const registerFormData = {
+      password: formData.registerPassword,
+      phoneNumber: formData.registerUsername
+    }
+    const registerResponseObj = await authentication.registerUser(registerFormData)
+    const { status, response } = registerResponseObj
+    if(status === SUCCESS_STATUS) {
+      console.log(response)
+      setFormData(prevState => ({...prevState, redirect: true}))
+      props.history.push("/profile");
+    }else{
+      setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+    }
+  }
+
+  useEffect(() => {
+    if(firstRender.current) {
+      firstRender.current = false
+      return
+    }
+
+    if(formData.redirect) {
+      return <Redirect to="profile" />   
+    }
+      
+    
+    console.log(loginFormValidation())
+    console.log(formData)
+    setFormData(prevState => ({ ...prevState, disableLoginButton: loginFormValidation(), disableRegisterButton: registerFormValidation() }))
+  }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername])
+
   return (
     <div className="App">
       <div class="banner-information row">
@@ -61,40 +148,44 @@ function LandingPage() {
       </svg> 
       <div class="main">
         <div class="form col-md-4">
-          {!showRegister && <form>
+          {!showRegister && <form onSubmit={ handleLoginFormSubmission }> 
+            <NotificationToast 
+              successMessage={formData.successMessage}
+              errorMessage={formData.errorMessage}
+            />
             <h3 style={{textAlign: 'center'}}>Existing Member</h3>
             <hr/>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email Address/Phone Number</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+              <label for="loginUsername">Email Address/Phone Number</label>
+              <input type="text" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
               <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" />
+              <label for="loginPassword">Password</label>
+              <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
             </div>
             <div class="form-group">
               <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link>
               <Link class="pull-left" to="/forgot-password">Forgot Password?</Link>
             </div><br/><br/>
-            <button type="submit" class="btn btn-primary">Sign In</button>
+            <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
           </form>}
-          {showRegister && <form>
+          {showRegister && <form onSubmit={ handleRegisterFormSubmission }> 
             <h3 style={{textAlign: 'center'}}>New Member</h3>
             <hr/>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email Address/Phone Number</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+              <label for="registerUsername">Email Address/Phone Number</label>
+              <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
               <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" />
+              <label for="registerPassword">Password</label>
+              <input type="password" class="form-control" id="registerPassword" name="registerPassword" onChange={updateFormData} />
             </div>
             <div class="form-group">
               <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
               </div><br/><br/>
-            <button type="submit" class="btn btn-primary">Become a member</button>
+            <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
           </form>}
         </div>
       </div>
