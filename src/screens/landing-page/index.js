@@ -8,7 +8,9 @@ import NotificationToast from '../../components/notification-alert'
 function LandingPage(props) {
 
   const firstRender = useRef(true)
-  const [showRegister, setShowRegister] = useState(false)
+  const [showLoginScreen, setShowLoginScreen] = useState(true)
+  const [showRegisterScreen, setShowRegisterScreen] = useState(false)
+  const [showOtpScreen, setShowOtpScreen] = useState(false)
   const [formData, setFormData] = useState({
     loginUsername: '',
     loginPassword: '',
@@ -16,13 +18,23 @@ function LandingPage(props) {
     registerPassword: '',
     errorMessage: '',
     successMessage: '',
+    otp: '',
     disableLoginButton: true,
     disableRegisterButton: true,
+    disableOtpButton: false,
     redirect: false
   })
 
-  const onRegisterLinkClick = () => setShowRegister(true)
-  const onLoginLinkClick = () => setShowRegister(false)
+  const onRegisterLinkClick = () => {
+    setShowRegisterScreen(true)
+    setShowOtpScreen(false)
+    setShowLoginScreen(false)
+  }
+  const onLoginLinkClick = () =>  {
+    setShowRegisterScreen(false)
+    setShowLoginScreen(true)
+    setShowOtpScreen(false)
+  }
 
   const updateFormData = e => {
     setFormData({...formData, [e.target.name]: e.target.value})
@@ -60,20 +72,54 @@ function LandingPage(props) {
   }
 
   const handleRegisterFormSubmission = async (e) => {
+    // setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
+    // console.log(formData)
+    // const registerFormData = {
+    //   password: formData.registerPassword,
+    //   phoneNumber: formData.registerUsername
+    // }
+    // const registerResponseObj = await authentication.registerUser(registerFormData)
+    // const { status, response } = registerResponseObj
+    // if(status === SUCCESS_STATUS) {
+    //   console.log(response)
+    //   setShowOtpScreen(true)
+    //   // setFormData(prevState => ({...prevState, redirect: true}))
+    //   // props.history.push("/profile");
+    // }else{
+    //   setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+    // }
+    setShowOtpScreen(true)
+    setShowRegisterScreen(false)
+    setShowLoginScreen(false)
+  }
+
+  const handleSendOtp = async (e) => {
     setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
-    console.log(formData)
-    const registerFormData = {
-      password: formData.registerPassword,
-      phoneNumber: formData.registerUsername
+    const sendOtpResponseObj = await authentication.sendOtp(formData.registerUsername)
+    const { status, response } = sendOtpResponseObj
+    if(status === SUCCESS_STATUS) {
+      console.log(response)
+      setFormData(prevState => ({...prevState, successMessage: "OTP sent successfully"}))
+    }else{
+      setFormData(prevState => ({...prevState, errorMessage: response.error}))
     }
-    const registerResponseObj = await authentication.registerUser(registerFormData)
-    const { status, response } = registerResponseObj
+  }
+
+  const handleOtpVerification = async (e) => {
+    setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true}))
+    console.log(formData)
+    const verifyOtpFormData = {
+      otp: formData.otp,
+      sessionId: '23434434'
+    }
+    const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
+    const { status, response } = verifyOtpResponseObj
     if(status === SUCCESS_STATUS) {
       console.log(response)
       setFormData(prevState => ({...prevState, redirect: true}))
       props.history.push("/profile");
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+      setFormData(prevState => ({...prevState, errorMessage: response ? response.error : "Something went wrong", disableOtpButton: false}))
     }
   }
 
@@ -148,7 +194,7 @@ function LandingPage(props) {
       </svg> 
       <div class="main">
         <div class="form col-md-4">
-          {!showRegister && <form onSubmit={ handleLoginFormSubmission }> 
+          {showLoginScreen && <form onSubmit={ handleLoginFormSubmission }> 
             <NotificationToast 
               successMessage={formData.successMessage}
               errorMessage={formData.errorMessage}
@@ -170,8 +216,12 @@ function LandingPage(props) {
             </div><br/><br/>
             <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
           </form>}
-          {showRegister && <form onSubmit={ handleRegisterFormSubmission }> 
+          {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
             <h3 style={{textAlign: 'center'}}>New Member</h3>
+            <NotificationToast 
+              successMessage={formData.successMessage}
+              errorMessage={formData.errorMessage}
+            />
             <hr/>
             <div class="form-group">
               <label for="registerUsername">Email Address/Phone Number</label>
@@ -186,6 +236,20 @@ function LandingPage(props) {
               <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
               </div><br/><br/>
             <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
+          </form>}
+          {showOtpScreen && <form onSubmit={ handleOtpVerification }> 
+            <h3 style={{textAlign: 'center'}}>Phone Number Verification</h3>
+            <NotificationToast 
+              successMessage={formData.successMessage}
+              errorMessage={formData.errorMessage}
+            />
+            <hr/>
+            <div class="form-group">
+              <label for="registerUsername">OTP</label>
+              <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
+            </div>
+            <button type="button" class="btn btn-primary" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
+            <a onClick={ handleSendOtp } class="pull-right">Resend OTP</a>
           </form>}
         </div>
       </div>

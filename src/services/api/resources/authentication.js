@@ -29,7 +29,14 @@ export default class Authentication {
         })
     }
 
-    verifyOTP (data) {
+    sendOtp (data) {
+        return this.apiRequester.get({
+          endpoint: 'otp',
+          body: data
+        })
+    }
+
+    verifyOtp (data) {
         return this.apiRequester.post({
           endpoint: 'verify-otp',
           body: data
