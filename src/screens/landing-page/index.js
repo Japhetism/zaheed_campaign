@@ -72,25 +72,22 @@ function LandingPage(props) {
   }
 
   const handleRegisterFormSubmission = async (e) => {
-    // setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
-    // console.log(formData)
-    // const registerFormData = {
-    //   password: formData.registerPassword,
-    //   phoneNumber: formData.registerUsername
-    // }
-    // const registerResponseObj = await authentication.registerUser(registerFormData)
-    // const { status, response } = registerResponseObj
-    // if(status === SUCCESS_STATUS) {
-    //   console.log(response)
-    //   setShowOtpScreen(true)
-    //   // setFormData(prevState => ({...prevState, redirect: true}))
-    //   // props.history.push("/profile");
-    // }else{
-    //   setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
-    // }
-    setShowOtpScreen(true)
-    setShowRegisterScreen(false)
-    setShowLoginScreen(false)
+    setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
+    console.log(formData)
+    const registerFormData = {
+      password: formData.registerPassword,
+      phoneNumber: formData.registerUsername
+    }
+    const registerResponseObj = await authentication.registerUser(registerFormData)
+    const { status, response } = registerResponseObj
+    if(status === SUCCESS_STATUS) {
+      console.log(response)
+      setShowOtpScreen(true)
+      setShowRegisterScreen(false)
+      setShowLoginScreen(false)
+    }else{
+      setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+    }
   }
 
   const handleSendOtp = async (e) => {

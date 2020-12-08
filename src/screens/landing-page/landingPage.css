@@ -1,22 +1,10 @@
-/* body { 
-    overflow: hidden; 
-}  */
+body { 
+    overflow: hidden !important; 
+} 
 
 .banner-information {
     padding-left: 70px;
 }
-
-/* .bg-image {
-    background-image: url('../../assets/images/logo.png');
-    background-repeat: no-repeat; 
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    height: 700%;
-    display: block;
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-} */
 
 .center-text {
     text-align: center !important;
@@ -78,7 +66,6 @@ svg {
 
 .container-curve2{
     background-color: #FBB124;
-    /* position: relative; */
     border-radius: 0%  0% 80% 30%;
     width: auto;
     height: 100px;
@@ -86,18 +73,18 @@ svg {
     position: relative;
 
 }
+
 .container-curve3{
     background-color: #FCCF3E;
-    /* position: relative; */
     border-radius: 0%  0% 80% 30%;
     width: auto;
     height: 100px;
     z-index: 3;
     position: relative;
 }
+
 .container-curve4 {
     background-color: #FA8223;
-    /* position: relative; */
     border-radius: 0%  0% 80% 30%;
     width: auto;
     height: 70px;
@@ -105,12 +92,6 @@ svg {
     position: relative;
 }
 
-
-/* .tabs-container {
-    color: white;
-    padding: 1.5rem;
-} */
-  
 @media (min-width: 980px) {
     .tabs-container {
       margin-left: auto;

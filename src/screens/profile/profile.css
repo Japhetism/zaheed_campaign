@@ -1,3 +1,7 @@
+body { 
+    overflow: scroll !important; 
+}
+
 .profile-title {
     background-color: #FA8223;
     width: 100%;
