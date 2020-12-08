@@ -1,4 +1,4 @@
-import './landingPage.css';
+//import './landingPage.css';
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { authentication } from '../../mixins/api'
@@ -139,10 +139,10 @@ function LandingPage(props) {
   return (
     <div className="App">
       <div class="banner-information row">
-        <div class="col-lg-5">
+        <div class="col-lg-9">
           <h6>Jai Congress!!</h6>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-2">
           <h6 class="pull-right">Jay Ho Rahul Gandhi!!!</h6>
         </div><br/>
         <div>
@@ -208,9 +208,9 @@ function LandingPage(props) {
               <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
             </div>
             <div class="form-group">
-              <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link>
+              <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link><br/>
               <Link class="pull-left" to="/forgot-password">Forgot Password?</Link>
-            </div><br/><br/>
+            </div>
             <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
           </form>}
           {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
@@ -231,7 +231,7 @@ function LandingPage(props) {
             </div>
             <div class="form-group">
               <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
-              </div><br/><br/>
+              </div>
             <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
           </form>}
           {showOtpScreen && <form onSubmit={ handleOtpVerification }> 

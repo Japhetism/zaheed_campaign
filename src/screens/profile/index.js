@@ -1,89 +1,165 @@
 //import logo from './logo.svg';
-import './profile.css';
+//import './profile.css';
+import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Razorpay } from 'razorpay'
 // import { json } from 'express';
+import React, { useState, useEffect, useRef } from 'react'
 
 function Profile() {
 
-  const initaitePayment =  () => {
-    const instance = new Razorpay({
-      key_id: "rzp_test_DjOGHnOds8Cb8I",
-      key_secret: "p6DfBxc0xojtTyCgNo0Xs64o",
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+            resolve(true);
+        };
+        script.onerror = () => {
+            resolve(false);
+        };
+        document.body.appendChild(script);
     });
-    try {
-      const options = {
-        amount: 10 * 100, // amount == Rs 10
-        currency: "INR",
-        receipt: "receipt#1",
-        payment_capture: 0,
-   // 1 for automatic capture // 0 for manual capture
-      };
-    instance.orders.create(options,function (err, order) {
-      console.log(order)
-    //return res.status(200).json(order);
-   });
-  } catch (err) {
-    console.log(err)
-    //return res.status(500).json({
-      //message: "Something Went Wrong",
-    //});
-   }
-  }
+}
 
-  // const paymentHandler = async (e) => {
-  //   const API_URL = 'http://localhost:8000/'
-  //   e.preventDefault();
-  //   // const orderUrl = `${API_URL}order`;
-  //   // const response = await Axios.get(orderUrl);
-  //   // const { data } = response;
-  //   const data = {
-  //     id: 1
-  //   }
-  //   const options = {
-  //     key: 'rzp_test_DjOGHnOds8Cb8I',
-  //     name: "zabass campaign",
-  //     description: "Some Description",
-  //     order_id: data.id,
-  //     handler: async (response) => {
-  //       try {
-  //        const paymentId = response.razorpay_payment_id;
-  //        const url = `${API_URL}capture/${paymentId}`;
-  //        const captureResponse = await Axios.post(url, {})
-  //        console.log(captureResponse.data);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     },
-  //     theme: {
-  //       color: "#686CFD",
-  //     },
-  //   };
-  //   const rzp1 = new window.Razorpay(options);
-  //   rzp1.open();
-  //   };
+const displayRazorpay = async () => {
+    const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+    );
 
+    console.log(res)
 
-    const saveOrder = (e) => {
-      axios.post("https://api.razorpay.com/v1/orders", {
-        amount: 10 * 100, // amount == Rs 10
-        currency: "INR",
-        receipt: "receipt#1",
-        payment_capture: 0,
-      })
-      .then((response) =>{
-        console.log(response);
-      })
-      // const { status, response } = verifyOtpResponseObj
-      // if(status === SUCCESS_STATUS) {
-      //   console.log(response)
-      //   setFormData(prevState => ({...prevState, redirect: true}))
-      //   props.history.push("/profile");
-      // }else{
-      //   setFormData(prevState => ({...prevState, errorMessage: response ? response.error : "Something went wrong", disableOtpButton: false}))
-      // }
+    if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
     }
+
+    const result = await axios.post("http://localhost:5000/payment/orders");
+
+    if (!result) {
+        alert("Server error. Are you online?");
+        return;
+    }
+
+    const { amount, id: order_id, currency } = result.data;
+
+    const options = {
+        key: "rzp_test_77JPgUqaflqdlE", // Enter the Key ID generated from the Dashboard
+        amount: amount.toString(),
+        currency: currency,
+        name: "Brigade Congress.",
+        description: "Test Transaction",
+        image: { logo },
+        order_id: order_id,
+        handler: async function (response) {
+            const data = {
+                orderCreationId: order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+            };
+
+            const result = await axios.post("http://localhost:5000/payment/success", data);
+
+            alert(result.data.msg);
+        },
+        prefill: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: `${formData.email}`,
+            contact: `${formData.phoneNumber}`,
+        },
+        notes: {
+            address: `${formData.houseNumber}, ${formData.buildingName}, ${formData.street}, ${formData.city}`,
+        },
+        theme: {
+            color: "#FA8223",
+        },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+}
+
+const [formData, setFormData] = useState({
+  aadharOrPAN: "",
+  accountType: "",
+  address: "",
+  bloodGroup: "",
+  category: "",
+  dateOfBirth: "",
+  // domain: [
+  //   {
+  //     "domainType": {
+  //       "domains": [
+  //         null
+  //       ],
+  //       "id": 0,
+  //       "name": "string",
+  //       "permissions": [
+  //         {
+  //           "description": "string",
+  //           "enabled": true,
+  //           "id": 0,
+  //           "name": "string"
+  //         }
+  //       ]
+  //     },
+  //     "enabled": true,
+  //     "id": 0,
+  //     "name": "string",
+  //     "persons": [
+  //       null
+  //     ]
+  //   }
+  // ],
+  email: "",
+  fatherOrHusbandsName: "",
+  firstName: "",
+  lastName: "",
+  middleName: "",
+  phoneNumber: "",
+  profilePhoto: "",
+  qualification: "",
+  referrer: 0,
+  saluation: "",
+  sex: "",
+  subscription: "",
+  // subscription": {
+  //   "end": "2020-12-07T16:39:49.778Z",
+  //   "id": 0,
+  //   "start": "2020-12-07T16:39:49.779Z",
+  //   "subscriptionType": {
+  //     "amount": 0,
+  //     "description": "string",
+  //     "duration": "string",
+  //     "id": 0,
+  //     "name": "string",
+  //     "subscriptions": [
+  //       null
+  //     ]
+  //   }
+  // },
+  title: ""
+
+})
+
+const updateFormData = e => {
+  setFormData({...formData, [e.target.name]: e.target.value})
+}
+
+const encodeImageFileAsURL = (element) => {
+  console.log(element.target.files)
+  var file = element.target.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    console.log('RESULT', reader.result)
+    setFormData({...formData, profilePhoto: reader.result})
+
+  }
+  reader.readAsDataURL(file);
+}
+
 
 
   return (
@@ -100,64 +176,66 @@ function Profile() {
         </div>
       </div>
       <div>
-        <div class="form col-md-10 col-md-offset-1">
+        <div class="form col-md-10 col-md-offset-2">
           <form>
-            <h3 style={{textAlign: 'center'}}>Registration</h3>
+            <h3 style={{textAlign: 'center'}}>Biodata</h3>
             <hr/>
             <div class="form-group row">
               <div class="col-lg-4">
-                <img src="../../assets/images/user-profile.jpg" class="profile-photo" />
+                <img src={formData.profilePhoto} class="profile-photo" alt="profile-photo" />
                 {/* <div class="upload-btn-wrapper">
                     <button class="upload-btn">
                       <span>+</span>
                     </button>
                     <input type="file" />
                 </div> */}
+                <input type="file" id="actual-btn" style={{display: 'none'}} onChange={ event => encodeImageFileAsURL(event) }/><br/>
+                <label class="profile-label" for="actual-btn">Profile Photo</label>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Salutation</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="salutation" name="salutation" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
 
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">First Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="firstName"  name="firstName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Middle Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="middleName" name="middleName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Last Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Father/Husband Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="fatherOrHusbandName" name="fatherOrHusbandName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Phone Number</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Password</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="password" name="password" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Account Type</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="accountType" name="accountType" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
@@ -165,68 +243,68 @@ function Profile() {
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Blood Group</label>
-                <select type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select type="text" class="form-control" id="bloodGroup" name="bloodGroup" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Sex</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="sex" name="sex" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Date of Birth</label>
-                <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">House Number</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="houseNumber" name="houseNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Building Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="buildingName" name="buildingName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Street</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="street" name="street" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">City/Town</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="city" name="city" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Pincode</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="pinCode" name="pinCode" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Taluk</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="taluk" name="taluk" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">District</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="district" name="district" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">State</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="state" name="state" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Country</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="country" name="country" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
@@ -234,15 +312,15 @@ function Profile() {
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Qualification</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="qualification" name="qualification" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>  
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Aadhar/PAN Card</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="text" class="form-control" id="aadharOrPAN" name="aadharOrPAN" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Lok Sabha</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="lokSabha" name="lokSabha" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
@@ -250,19 +328,19 @@ function Profile() {
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Assembly</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="assembly" name="assembly" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Ward</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="ward" name="ward" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Polling Booth</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="pollingBooth" name="pollingBooth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
@@ -270,23 +348,32 @@ function Profile() {
             <div class="form-group row">
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Category</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="category" name="category" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Subscription Type</label>
-                <select class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" >
+                <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                   <option>Select</option>
                 </select>
               </div>
               <div class="col-lg-4">
                 <label for="exampleInputEmail1">Identification Card</label>
-                <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" />
+                <input type="file" class="form-control" id="identificationCard" name="identificationCard" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
               </div>
             </div>
-            <button type="button" onClick={ saveOrder } cla ss="btn btn-primary">Submit</button>
-          </form>
+            <div class="row">
+              <div class="col-md-10">
+              <button type="button" class="btn btn-primary mx-auto">Save</button>
+            
+              </div>
+              <div class="col-md-2 mx-auto">
+              <button type="button" onClick={ displayRazorpay } class="btn btn-primary">Proceed to Payment</button>
+          
+              </div>
+            </div>
+            </form>
         </div>
         </div>
     </div>
