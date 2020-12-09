@@ -1,166 +1,172 @@
-//import logo from './logo.svg';
-//import './profile.css';
 import logo from '../../assets/images/logo.png'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { Razorpay } from 'razorpay'
-// import { json } from 'express';
 import React, { useState, useEffect, useRef } from 'react'
+import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
+import NotificationToast from '../../components/notification-alert'
 
 function Profile() {
-
   const loadScript = (src) => {
     return new Promise((resolve) => {
-        const script = document.createElement("script");
-        script.src = src;
-        script.onload = () => {
-            resolve(true);
-        };
-        script.onerror = () => {
-            resolve(false);
-        };
-        document.body.appendChild(script);
-    });
-}
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+          resolve(true);
+      };
+      script.onerror = () => {
+          resolve(false);
+      };
+      document.body.appendChild(script);
+    }); 
+  }
 
-const displayRazorpay = async () => {
+  const displayRazorpay = async () => {
+    let errorMessage = ""
     const res = await loadScript(
-        "https://checkout.razorpay.com/v1/checkout.js"
+      "https://checkout.razorpay.com/v1/checkout.js"
     );
-
-    console.log(res)
-
     if (!res) {
-        alert("Razorpay SDK failed to load. Are you online?");
-        return;
+      errorMessage = "Razorpay failed to load. Check your network connectivity"
+      alert(errorMessage)
+      setFormData({...formData, errorMessage: errorMessage})
+      return;
     }
-
     const result = await axios.post("http://localhost:5000/payment/orders");
-
     if (!result) {
-        alert("Server error. Are you online?");
-        return;
+      errorMessage = "An error occurred, please try again"
+      alert(errorMessage)
+      setFormData({...formData, errorMessage: errorMessage})
+      return;
     }
-
     const { amount, id: order_id, currency } = result.data;
-
     const options = {
-        key: "rzp_test_77JPgUqaflqdlE", // Enter the Key ID generated from the Dashboard
-        amount: amount.toString(),
-        currency: currency,
-        name: "Brigade Congress.",
-        description: "Test Transaction",
-        image: { logo },
-        order_id: order_id,
-        handler: async function (response) {
-            const data = {
-                orderCreationId: order_id,
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpayOrderId: response.razorpay_order_id,
-                razorpaySignature: response.razorpay_signature,
-            };
-
-            const result = await axios.post("http://localhost:5000/payment/success", data);
-
-            alert(result.data.msg);
-        },
-        prefill: {
-            name: `${formData.firstName} ${formData.lastName}`,
-            email: `${formData.email}`,
-            contact: `${formData.phoneNumber}`,
-        },
-        notes: {
-            address: `${formData.houseNumber}, ${formData.buildingName}, ${formData.street}, ${formData.city}`,
-        },
-        theme: {
-            color: "#FA8223",
-        },
+      key: "rzp_test_77JPgUqaflqdlE", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "Brigade Congress.",
+      description: "Test Transaction",
+      image: { logo },
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
+        };
+        const result = await axios.post("http://localhost:5000/payment/success", data);
+      },
+      prefill: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: `${formData.email}`,
+        contact: `${formData.phoneNumber}`,
+      },
+      notes: {
+        address: `${formData.houseNumber}, ${formData.buildingName}, ${formData.street}, ${formData.city}`,
+      },
+      theme: {
+        color: "#FA8223",
+      },
     };
-
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
-}
-
-const [formData, setFormData] = useState({
-  aadharOrPAN: "",
-  accountType: "",
-  address: "",
-  bloodGroup: "",
-  category: "",
-  dateOfBirth: "",
-  // domain: [
-  //   {
-  //     "domainType": {
-  //       "domains": [
-  //         null
-  //       ],
-  //       "id": 0,
-  //       "name": "string",
-  //       "permissions": [
-  //         {
-  //           "description": "string",
-  //           "enabled": true,
-  //           "id": 0,
-  //           "name": "string"
-  //         }
-  //       ]
-  //     },
-  //     "enabled": true,
-  //     "id": 0,
-  //     "name": "string",
-  //     "persons": [
-  //       null
-  //     ]
-  //   }
-  // ],
-  email: "",
-  fatherOrHusbandsName: "",
-  firstName: "",
-  lastName: "",
-  middleName: "",
-  phoneNumber: "",
-  profilePhoto: "",
-  qualification: "",
-  referrer: 0,
-  saluation: "",
-  sex: "",
-  subscription: "",
-  // subscription": {
-  //   "end": "2020-12-07T16:39:49.778Z",
-  //   "id": 0,
-  //   "start": "2020-12-07T16:39:49.779Z",
-  //   "subscriptionType": {
-  //     "amount": 0,
-  //     "description": "string",
-  //     "duration": "string",
-  //     "id": 0,
-  //     "name": "string",
-  //     "subscriptions": [
-  //       null
-  //     ]
-  //   }
-  // },
-  title: ""
-
-})
-
-const updateFormData = e => {
-  setFormData({...formData, [e.target.name]: e.target.value})
-}
-
-const encodeImageFileAsURL = (element) => {
-  console.log(element.target.files)
-  var file = element.target.files[0];
-  var reader = new FileReader();
-  reader.onloadend = function() {
-    console.log('RESULT', reader.result)
-    setFormData({...formData, profilePhoto: reader.result})
-
   }
-  reader.readAsDataURL(file);
-}
 
+  const firstRender = useRef(true)
+  const [formData, setFormData] = useState({
+    aadharOrPAN: "",
+    accountType: "",
+    address: "",
+    bloodGroup: "",
+    category: "",
+    dateOfBirth: "",
+    // domain: [
+    //   {
+    //     "domainType": {
+    //       "domains": [
+    //         null
+    //       ],
+    //       "id": 0,
+    //       "name": "string",
+    //       "permissions": [
+    //         {
+    //           "description": "string",
+    //           "enabled": true,
+    //           "id": 0,
+    //           "name": "string"
+    //         }
+    //       ]
+    //     },
+    //     "enabled": true,
+    //     "id": 0,
+    //     "name": "string",
+    //     "persons": [
+    //       null
+    //     ]
+    //   }
+    // ],
+    email: "",
+    fatherOrHusbandsName: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    phoneNumber: "",
+    profilePhoto: "",
+    qualification: "",
+    referrer: 0,
+    saluation: "",
+    sex: "",
+    subscription: "",
+    // subscription": {
+    //   "end": "2020-12-07T16:39:49.778Z",
+    //   "id": 0,
+    //   "start": "2020-12-07T16:39:49.779Z",
+    //   "subscriptionType": {
+    //     "amount": 0,
+    //     "description": "string",
+    //     "duration": "string",
+    //     "id": 0,
+    //     "name": "string",
+    //     "subscriptions": [
+    //       null
+    //     ]
+    //   }
+    // },
+    title: "",
+    disablePaymentButton: true,
+    successMessage: null,
+    errorMessage: null
+  })
 
+  const updateFormData = e => {
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
+
+  const encodeImageFileAsURL = (element) => {
+    console.log(element.target.files)
+    var file = element.target.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      setFormData({...formData, profilePhoto: reader.result})
+    }
+    reader.readAsDataURL(file);
+  }
+
+  const formValidation = () => {
+    if(formData.firstName && formData.lastName && formData.email && formData.phoneNumber) {
+      return false;
+    }else{
+      return true
+    }
+  }
+
+  useEffect(() => {
+    if(firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    console.log(formData)
+    setFormData(prevState => ({ ...prevState, disablePaymentButton: formValidation()}))
+  }, [formData.email, formData.firstName, formData.lastName, formData.email, formData.phoneNumber])
 
   return (
     <div class="container-fluid">
@@ -175,6 +181,10 @@ const encodeImageFileAsURL = (element) => {
           <span>Profile Information</span>
         </div>
       </div>
+      <NotificationToast 
+        successMessage={formData.successMessage}
+        errorMessage={formData.errorMessage}
+      />
       <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
           <div class="col-lg-offset-2 col-lg-10 col-lg-offset-2">
@@ -358,11 +368,11 @@ const encodeImageFileAsURL = (element) => {
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-9">
-                  <button type="button" class="btn btn-primary mx-auto">Save</button>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                  <button type="button" class="btn btn-default-color">Save</button>
                 </div>
-                <div class="col-md-2 mx-auto">
-                  <button type="button" onClick={ displayRazorpay } class="btn btn-primary">Proceed to Payment</button>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 payment-button">
+                  <button type="button" onClick={ displayRazorpay } class="btn btn-default-color" disabled={formData.disablePaymentButton}>Proceed to Payment</button>
                 </div>
               </div>
             </form>

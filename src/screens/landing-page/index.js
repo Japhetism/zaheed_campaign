@@ -1,4 +1,3 @@
-//import './landingPage.css';
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { authentication } from '../../mixins/api'
@@ -187,10 +186,10 @@ function LandingPage(props) {
                 <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
               </div>
               <div class="form-group">
-                <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link><br/>
-                <Link class="pull-left" to="/forgot-password">Forgot Password?</Link>
+                <Link class="pull-right link-color" onClick={onRegisterLinkClick}>Become a member</Link>
+                <Link class="float-right link-color" to="/forgot-password">Forgot Password?</Link>
               </div>
-              <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
+              <button type="button" class="btn btn-default-color" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
             </form>}
             {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
               <h3 style={{textAlign: 'center'}}>New Member</h3>
@@ -209,9 +208,9 @@ function LandingPage(props) {
                 <input type="password" class="form-control" id="registerPassword" name="registerPassword" onChange={updateFormData} />
               </div>
               <div class="form-group">
-                <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
+                <Link class="pull-right link-color" onClick={onLoginLinkClick}>Already a member, login</Link>
               </div>
-              <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
+              <button type="button" class="btn btn-default-color" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
             </form>}
             {showOtpScreen && <form onSubmit={ handleOtpVerification }> 
               <h3 style={{textAlign: 'center'}}>Phone Number Verification</h3>
@@ -224,8 +223,8 @@ function LandingPage(props) {
                 <label for="registerUsername">OTP</label>
                 <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
               </div>
-              <button type="button" class="btn btn-primary" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
-              <a onClick={ handleSendOtp } class="pull-right">Resend OTP</a>
+              <button type="button" class="btn btn-default-color" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
+              <a onClick={ handleSendOtp } class="pull-right link-color">Resend OTP</a>
             </form>}
           </div>
         </div>
