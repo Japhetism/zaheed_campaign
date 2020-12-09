@@ -163,7 +163,7 @@ const encodeImageFileAsURL = (element) => {
 
 
   return (
-    <div class="profile">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-10">
           <img src="../../assets/images/logo.png" class="logo" />
@@ -171,211 +171,204 @@ const encodeImageFileAsURL = (element) => {
         </div>
       </div>
       <div class="container-fluid profile-title row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <span>Profile Information</span>
         </div>
       </div>
-      <div>
-        <div class="form col-md-10 col-md-offset-2">
-          <form>
-            <h3 style={{textAlign: 'center'}}>Biodata</h3>
-            <hr/>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <img src={formData.profilePhoto} class="profile-photo" alt="profile-photo" />
-                {/* <div class="upload-btn-wrapper">
-                    <button class="upload-btn">
-                      <span>+</span>
-                    </button>
-                    <input type="file" />
-                </div> */}
-                <input type="file" id="actual-btn" style={{display: 'none'}} onChange={ event => encodeImageFileAsURL(event) }/><br/>
-                <label class="profile-label" for="actual-btn">Profile Photo</label>
+      <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+          <div class="col-lg-offset-2 col-lg-10 col-lg-offset-2">
+            <form class="form">
+              <h3 style={{textAlign: 'center'}}>Biodata</h3>
+              <hr/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  {formData.profilePhoto && <img src={formData.profilePhoto} class="profile-photo" alt="profile-photo" />}
+                  <input type="file" id="actual-btn" style={{display: 'none'}} onChange={ event => encodeImageFileAsURL(event) }/><br/>
+                  <label class="profile-label" for="actual-btn">Profile Photo</label>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Salutation</label>
-                <select class="form-control" id="salutation" name="salutation" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Salutation</label>
+                  <select class="form-control" id="salutation" name="salutation" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
 
-                </select>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">First Name</label>
+                  <input type="text" class="form-control" id="firstName"  name="firstName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Middle Name</label>
+                  <input type="text" class="form-control" id="middleName" name="middleName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">First Name</label>
-                <input type="text" class="form-control" id="firstName"  name="firstName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Father/Husband Name</label>
+                  <input type="text" class="form-control" id="fatherOrHusbandName" name="fatherOrHusbandName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Middle Name</label>
-                <input type="text" class="form-control" id="middleName" name="middleName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Phone Number</label>
+                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Password</label>
+                  <input type="text" class="form-control" id="password" name="password" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Account Type</label>
+                  <select class="form-control" id="accountType" name="accountType" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Last Name</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Blood Group</label>
+                  <select type="text" class="form-control" id="bloodGroup" name="bloodGroup" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Sex</label>
+                  <select class="form-control" id="sex" name="sex" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Date of Birth</label>
+                  <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Father/Husband Name</label>
-                <input type="text" class="form-control" id="fatherOrHusbandName" name="fatherOrHusbandName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">House Number</label>
+                  <input type="text" class="form-control" id="houseNumber" name="houseNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Building Name</label>
+                  <input type="text" class="form-control" id="buildingName" name="buildingName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Street</label>
+                  <input type="text" class="form-control" id="street" name="street" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Email</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">City/Town</label>
+                  <select class="form-control" id="city" name="city" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Pincode</label>
+                  <input type="text" class="form-control" id="pinCode" name="pinCode" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Taluk</label>
+                  <input type="text" class="form-control" id="taluk" name="taluk" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Phone Number</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">District</label>
+                  <select class="form-control" id="district" name="district" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>  
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">State</label>
+                  <select class="form-control" id="state" name="state" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Country</label>
+                  <select class="form-control" id="country" name="country" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Password</label>
-                <input type="text" class="form-control" id="password" name="password" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Qualification</label>
+                  <input type="text" class="form-control" id="qualification" name="qualification" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>  
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Aadhar/PAN Card</label>
+                  <input type="text" class="form-control" id="aadharOrPAN" name="aadharOrPAN" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Lok Sabha</label>
+                  <select class="form-control" id="lokSabha" name="lokSabha" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Account Type</label>
-                <select class="form-control" id="accountType" name="accountType" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Assembly</label>
+                  <select class="form-control" id="assembly" name="assembly" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Ward</label>
+                  <select class="form-control" id="ward" name="ward" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Polling Booth</label>
+                  <select class="form-control" id="pollingBooth" name="pollingBooth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Blood Group</label>
-                <select type="text" class="form-control" id="bloodGroup" name="bloodGroup" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
+              <div class="form-group row">
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Category</label>
+                  <select class="form-control" id="category" name="category" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Subscription Type</label>
+                  <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
+                    <option>Select</option>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="exampleInputEmail1">Identification Card</label>
+                  <input type="file" class="form-control" id="identificationCard" name="identificationCard" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Sex</label>
-                <select class="form-control" id="sex" name="sex" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
+              <div class="row">
+                <div class="col-md-9">
+                  <button type="button" class="btn btn-primary mx-auto">Save</button>
+                </div>
+                <div class="col-md-2 mx-auto">
+                  <button type="button" onClick={ displayRazorpay } class="btn btn-primary">Proceed to Payment</button>
+                </div>
               </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Date of Birth</label>
-                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">House Number</label>
-                <input type="text" class="form-control" id="houseNumber" name="houseNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Building Name</label>
-                <input type="text" class="form-control" id="buildingName" name="buildingName" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Street</label>
-                <input type="text" class="form-control" id="street" name="street" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">City/Town</label>
-                <select class="form-control" id="city" name="city" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Pincode</label>
-                <input type="text" class="form-control" id="pinCode" name="pinCode" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Taluk</label>
-                <input type="text" class="form-control" id="taluk" name="taluk" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">District</label>
-                <select class="form-control" id="district" name="district" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">State</label>
-                <select class="form-control" id="state" name="state" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Country</label>
-                <select class="form-control" id="country" name="country" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Qualification</label>
-                <input type="text" class="form-control" id="qualification" name="qualification" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>  
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Aadhar/PAN Card</label>
-                <input type="text" class="form-control" id="aadharOrPAN" name="aadharOrPAN" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Lok Sabha</label>
-                <select class="form-control" id="lokSabha" name="lokSabha" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Assembly</label>
-                <select class="form-control" id="assembly" name="assembly" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Ward</label>
-                <select class="form-control" id="ward" name="ward" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Polling Booth</label>
-                <select class="form-control" id="pollingBooth" name="pollingBooth" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Category</label>
-                <select class="form-control" id="category" name="category" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Subscription Type</label>
-                <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
-                  <option>Select</option>
-                </select>
-              </div>
-              <div class="col-lg-4">
-                <label for="exampleInputEmail1">Identification Card</label>
-                <input type="file" class="form-control" id="identificationCard" name="identificationCard" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-10">
-              <button type="button" class="btn btn-primary mx-auto">Save</button>
-            
-              </div>
-              <div class="col-md-2 mx-auto">
-              <button type="button" onClick={ displayRazorpay } class="btn btn-primary">Proceed to Payment</button>
-          
-              </div>
-            </div>
             </form>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 }
