@@ -3,7 +3,7 @@ import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
 import { authentication } from '../../mixins/api'
 
-function ForgotPassword() {
+function ResetPassword() {
     const firstRender = useRef(true)
     
     const [formData, setFormData] = useState({
@@ -18,19 +18,20 @@ function ForgotPassword() {
     }
 
     const formValidation = () => {
-        if(formData.email) {
+        if(formData.confirmPassword && formData.password) {
           return false;
         }else{
           return true
         }
     }
 
-    const handleForgotPasswordSubmission = async () => {
+    const handleResetPasswordSubmission = async () => {
         setFormData(prevState => ({...prevState, errorMessage: '', disableButton: true}))
-        const forgotPasswordFormData = {
-            email: formData.email
+        const resetPasswordFormData = {
+            password: formData.password,
+            confirmPassword: formData.confirmPassword
         }
-        const forgotPasswordResponseObj = await authentication.loginUser(forgotPasswordFormData)
+        const forgotPasswordResponseObj = await authentication.loginUser(resetPasswordFormData)
         const { status, response } = forgotPasswordResponseObj
         if(status === SUCCESS_STATUS) {
     
@@ -53,18 +54,22 @@ function ForgotPassword() {
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-lg-offset-3 col-lg-4 col-lg-offset-3">
                 <img src="../../assets/images/logo.png" />
-                <form class="form" onSubmit={ handleForgotPasswordSubmission }>
+                <form class="form" onSubmit={ handleResetPasswordSubmission }>
                     <NotificationToast 
                         successMessage={formData.successMessage}
                         errorMessage={formData.errorMessage}
                     />
-                    <h3 class="center-text">Forgot Password</h3>
+                    <h3 class="center-text">Reset Password</h3>
                     <hr/>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email Address</label>
-                        <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" onChange={updateFormData} />
+                        <label for="exampleInputEmail1">Password</label>
+                        <input type="text" class="form-control" id="password" name="password" aria-describedby="emailHelp" onChange={updateFormData} />
                     </div>
-                    <button type="button" class="btn btn-primary" disabled={ formData.disableButton } onClick={ handleForgotPasswordSubmission }>Forgot Password</button>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirm Password</label>
+                        <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" aria-describedby="emailHelp" onChange={updateFormData} />
+                    </div>
+                    <button type="button" class="btn btn-primary" disabled={ formData.disableButton } onClick={ handleResetPasswordSubmission }>Reset Password</button>
                 </form>
             </div>
         </div>
@@ -72,4 +77,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;

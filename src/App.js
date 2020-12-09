@@ -11,6 +11,7 @@ import LandingPageScreen from './screens/landing-page'
 import ProfileScreen from './screens/profile'
 import ForgotPasswordScreen from './screens/forgot-password'
 import DashboardScreen from './screens/home/dashboard'
+import ResetPasswordScreen from './screens/reset-password'
 
 function App() {
   return (
@@ -20,12 +21,10 @@ function App() {
           <Route exact path="/login" component={LandingPageScreen} />
           <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/forgot-password" component={ForgotPasswordScreen} />
+          <Route exact path="/reset-password" component={ResetPasswordScreen} />
         <Route exact path="/home" component={DashboardScreen} />
       </switch>
     </Router>
-    // <React.Fragment>
-    //   <LandingPage />
-    // </React.Fragment>
   );
 }
 
