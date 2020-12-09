@@ -137,83 +137,62 @@ function LandingPage(props) {
   }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername])
 
   return (
-    <div className="App">
-      <div class="banner-information row">
-        <div class="col-lg-9">
-          <h6>Jai Congress!!</h6>
+    <div>
+      <header>
+        <div class="container-fluid row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h6>Jai Congress!!</h6>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h6 class="float-right">Jay Ho Rahul Gandhi!!!</h6>
+          </div>
         </div>
-        <div class="col-lg-2">
-          <h6 class="pull-right">Jay Ho Rahul Gandhi!!!</h6>
-        </div><br/>
-        <div>
-          <h2 class="center-text">Join hands for the change</h2>
-          <h1 class="black-color"> 
+        <h4 class="center-text slogan">Join hands for the change</h4>
+        <div class="container-fluid row org">
+          <div class="col-lg-6 col-md-6 col-sm-9 col-xs-9">
             <img src="../../assets/images/logo.png" class="logo" />
-            <span>All India Rahul Gandhi Brigade Congress</span>
-          </h1>
-        </div> 
-      </div>
-      <svg viewBox="0 50 500 500" 
-        preserveAspectRatio="xMinYMin meet"
-        style={{zIndex: -1}}> 
-          
-        <path d="M0, 100 C150, 200 350, 
-            0 500, 100 L500, 00 L0, 0 Z" 
-            style={{stroke: 'none', fill: '#FA8223'}}> 
-        </path> 
-      </svg>
-      <svg viewBox="0 40 500 500" 
-        preserveAspectRatio="xMinYMin meet"
-        style={{zIndex: -2}}> 
-          
-        <path d="M0, 100 C150, 200 350, 
-            0 500, 100 L500, 00 L0, 0 Z" 
-            style={{stroke: 'none', fill: '#FD9A24'}}> 
-        </path> 
-      </svg> 
-      <svg viewBox="0 30 500 500" 
-        preserveAspectRatio="xMinYMin meet"
-        style={{zIndex: -2}}> 
-          
-        <path d="M0, 100 C150, 200 350, 
-            0 500, 100 L500, 00 L0, 0 Z" 
-            style={{stroke: 'none', fill: '#FBB124'}}> 
-        </path> 
-      </svg> 
-      <svg viewBox="0 40 500 500" 
-        preserveAspectRatio="xMinYMin meet"
-        style={{zIndex: -2}}> 
-          
-        <path d="M0, 100 C150, 200 350, 
-            0 500, 100 L500, 00 L0, 0 Z" 
-            style={{stroke: 'none', fill: '#FD9A24'}}> 
-        </path> 
-      </svg> 
-      <div class="main">
-        <div class="form col-md-4">
-          {showLoginScreen && <form onSubmit={ handleLoginFormSubmission }> 
-            <NotificationToast 
-              successMessage={formData.successMessage}
-              errorMessage={formData.errorMessage}
-            />
-            <h3 style={{textAlign: 'center'}}>Existing Member</h3>
-            <hr/>
-            <div class="form-group">
-              <label for="loginUsername">Email Address/Phone Number</label>
-              <input type="text" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
-              <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="loginPassword">Password</label>
-              <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
-            </div>
-            <div class="form-group">
-              <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link><br/>
-              <Link class="pull-left" to="/forgot-password">Forgot Password?</Link>
-            </div>
-            <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
-          </form>}
-          {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
+            <span class="org-name"><strong>All India Rahul Gandhi Brigade Congress</strong></span>
+          </div>
+        </div>
+        <svg viewBox="0 50 500 500" preserveAspectRatio="xMinYMin meet" style={{zIndex: -1}}> 
+          <path d="M0, 100 C150, 200 350, 0 500, 100 L500, 00 L0, 0 Z" style={{stroke: 'none', fill: '#FA8223'}}> </path> 
+        </svg>
+        <svg viewBox="0 40 500 500" preserveAspectRatio="xMinYMin meet" style={{zIndex: -2}}> 
+          <path d="M0, 100 C150, 200 350, 0 500, 100 L500, 00 L0, 0 Z" style={{stroke: 'none', fill: '#FD9A24'}}> </path> 
+        </svg> 
+        <svg viewBox="0 30 500 500" preserveAspectRatio="xMinYMin meet" style={{zIndex: -2}}> 
+          <path d="M0, 100 C150, 200 350, 0 500, 100 L500, 00 L0, 0 Z" style={{stroke: 'none', fill: '#FBB124'}}> </path> 
+        </svg> 
+        <svg viewBox="0 40 500 500" preserveAspectRatio="xMinYMin meet" style={{zIndex: -2}}> 
+          <path d="M0, 100 C150, 200 350, 0 500, 100 L500, 00 L0, 0 Z" style={{stroke: 'none', fill: '#FD9A24'}}> </path> 
+        </svg>
+      </header>
+      <section>
+        <div class="container-fluid row">
+          <div class="form col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            {showLoginScreen && <form onSubmit={ handleLoginFormSubmission }> 
+              <NotificationToast 
+                successMessage={formData.successMessage}
+                errorMessage={formData.errorMessage}
+              />
+              <h3 style={{textAlign: 'center'}}>Existing Member</h3>
+              <hr/>
+              <div class="form-group">
+                <label for="loginUsername">Phone Number</label>
+                <input type="text" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
+                <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
+              </div>
+              <div class="form-group">
+                <Link class="pull-right" onClick={onRegisterLinkClick}>Become a member</Link><br/>
+                <Link class="pull-left" to="/forgot-password">Forgot Password?</Link>
+              </div>
+              <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
+            </form>}
+            {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
             <h3 style={{textAlign: 'center'}}>New Member</h3>
             <NotificationToast 
               successMessage={formData.successMessage}
@@ -248,8 +227,9 @@ function LandingPage(props) {
             <button type="button" class="btn btn-primary" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
             <a onClick={ handleSendOtp } class="pull-right">Resend OTP</a>
           </form>}
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
