@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom'
 
 function ForgotPassword() {
   return (
-    <div class="forgot-password">
-        <div class="col-lg-8 col-lg-offset-4">
-            <img style={{marginTop: '20%', textAlign: 'center', marginLeft: '20%'}} src="../../assets/images/logo.png" />
-        </div>
-        <div class="forgot-password-main">
-            <div class="form col-lg-offset-3 col-lg-6 col-lg-offset-3">
-                <form class="">
+      <div class="container h-100 forgot-password">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-lg-offset-3 col-lg-4 col-lg-offset-3">
+                <img src="../../assets/images/logo.png" />
+                <form class="form">
                     <h3 class="center-text">Forgot Password</h3>
                     <hr/>
                     <div class="form-group">

@@ -193,40 +193,40 @@ function LandingPage(props) {
               <button type="button" class="btn btn-primary" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
             </form>}
             {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
-            <h3 style={{textAlign: 'center'}}>New Member</h3>
-            <NotificationToast 
-              successMessage={formData.successMessage}
-              errorMessage={formData.errorMessage}
-            />
-            <hr/>
-            <div class="form-group">
-              <label for="registerUsername">Email Address/Phone Number</label>
-              <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
-              <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="registerPassword">Password</label>
-              <input type="password" class="form-control" id="registerPassword" name="registerPassword" onChange={updateFormData} />
-            </div>
-            <div class="form-group">
-              <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
+              <h3 style={{textAlign: 'center'}}>New Member</h3>
+              <NotificationToast 
+                successMessage={formData.successMessage}
+                errorMessage={formData.errorMessage}
+              />
+              <hr/>
+              <div class="form-group">
+                <label for="registerUsername">Email Address/Phone Number</label>
+                <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
               </div>
-            <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
-          </form>}
-          {showOtpScreen && <form onSubmit={ handleOtpVerification }> 
-            <h3 style={{textAlign: 'center'}}>Phone Number Verification</h3>
-            <NotificationToast 
-              successMessage={formData.successMessage}
-              errorMessage={formData.errorMessage}
-            />
-            <hr/>
-            <div class="form-group">
-              <label for="registerUsername">OTP</label>
-              <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
-            </div>
-            <button type="button" class="btn btn-primary" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
-            <a onClick={ handleSendOtp } class="pull-right">Resend OTP</a>
-          </form>}
+              <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" class="form-control" id="registerPassword" name="registerPassword" onChange={updateFormData} />
+              </div>
+              <div class="form-group">
+                <Link class="pull-right" onClick={onLoginLinkClick}>Already a member, login</Link>
+              </div>
+              <button type="button" class="btn btn-primary" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
+            </form>}
+            {showOtpScreen && <form onSubmit={ handleOtpVerification }> 
+              <h3 style={{textAlign: 'center'}}>Phone Number Verification</h3>
+              <NotificationToast 
+                successMessage={formData.successMessage}
+                errorMessage={formData.errorMessage}
+              />
+              <hr/>
+              <div class="form-group">
+                <label for="registerUsername">OTP</label>
+                <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
+              </div>
+              <button type="button" class="btn btn-primary" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
+              <a onClick={ handleSendOtp } class="pull-right">Resend OTP</a>
+            </form>}
           </div>
         </div>
       </section>
