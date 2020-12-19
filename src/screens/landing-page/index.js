@@ -85,7 +85,11 @@ function LandingPage(props) {
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+      console.log(response.description)
+      console.log(process.env.REACT_APP_DEFAULT_ERROR_MESSAGE)
+      const errorMessage = response.description ? response.description : process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
+      console.log(errorMessage)
+      setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false}))
     }
   }
 
@@ -199,7 +203,7 @@ function LandingPage(props) {
               />
               <hr/>
               <div class="form-group">
-                <label for="registerUsername">Email Address/Phone Number</label>
+                <label for="registerUsername">Phone Number</label>
                 <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
               </div>
