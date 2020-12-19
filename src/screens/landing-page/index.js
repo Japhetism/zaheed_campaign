@@ -25,11 +25,13 @@ function LandingPage(props) {
   })
 
   const onRegisterLinkClick = () => {
+    setFormData(prevState => ({...prevState, errorMessage: null}))
     setShowRegisterScreen(true)
     setShowOtpScreen(false)
     setShowLoginScreen(false)
   }
   const onLoginLinkClick = () =>  {
+    setFormData(prevState => ({...prevState, errorMessage: null}))
     setShowRegisterScreen(false)
     setShowLoginScreen(true)
     setShowOtpScreen(false)
@@ -85,6 +87,7 @@ function LandingPage(props) {
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
     }else{
+      const errorMessage = response.error 
       setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
     }
   }
@@ -199,7 +202,7 @@ function LandingPage(props) {
               />
               <hr/>
               <div class="form-group">
-                <label for="registerUsername">Email Address/Phone Number</label>
+                <label for="registerUsername">Phone Number</label>
                 <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
               </div>
