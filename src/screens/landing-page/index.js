@@ -21,7 +21,8 @@ function LandingPage(props) {
     disableLoginButton: true,
     disableRegisterButton: true,
     disableOtpButton: false,
-    redirect: false
+    redirect: false,
+    isLoading: false,
   })
 
   const onRegisterLinkClick = () => {
@@ -57,8 +58,9 @@ function LandingPage(props) {
     }
   }
 
-  const handleLoginFormSubmission = async () => {
-    setFormData(prevState => ({...prevState, errorMessage: '', disableLoginButton: true}))
+  const handleLoginFormSubmission = async (e) => {
+    e.preventDefault()
+    setFormData(prevState => ({...prevState, errorMessage: '', disableLoginButton: true, isLoading: true}))
     const loginFormData = {
       password: formData.loginPassword,
       phoneNumber: formData.loginUsername
@@ -68,12 +70,13 @@ function LandingPage(props) {
     if(status === SUCCESS_STATUS) {
 
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response.error, disableLoginButton: false}))
+      const errorMessage = response.error ? response.error : process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
+      setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableLoginButton: false, isLoading: false}))
     }
   }
 
   const handleRegisterFormSubmission = async (e) => {
-    setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
+    setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true, isLoading: true}))
     console.log(formData)
     const registerFormData = {
       password: formData.registerPassword,
@@ -87,8 +90,11 @@ function LandingPage(props) {
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
     }else{
-      const errorMessage = response.error 
-      setFormData(prevState => ({...prevState, errorMessage: response.error, disableRegisterButton: false}))
+      console.log(response.description)
+      console.log(process.env.REACT_APP_DEFAULT_ERROR_MESSAGE)
+      const errorMessage = response.description ? response.description : process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
+      console.log(errorMessage)
+      setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
     }
   }
 
@@ -105,7 +111,7 @@ function LandingPage(props) {
   }
 
   const handleOtpVerification = async (e) => {
-    setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true}))
+    setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true, isLoading: true}))
     console.log(formData)
     const verifyOtpFormData = {
       otp: formData.otp,
@@ -118,7 +124,7 @@ function LandingPage(props) {
       setFormData(prevState => ({...prevState, redirect: true}))
       props.history.push("/profile");
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response ? response.error : "Something went wrong", disableOtpButton: false}))
+      setFormData(prevState => ({...prevState, errorMessage: response ? response.error : "Something went wrong", disableOtpButton: false, isLoading: false}))
     }
   }
 
@@ -181,7 +187,7 @@ function LandingPage(props) {
               <hr/>
               <div class="form-group">
                 <label for="loginUsername">Phone Number</label>
-                <input type="text" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
+                <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
               </div>
               <div class="form-group">
@@ -189,10 +195,10 @@ function LandingPage(props) {
                 <input type="password" class="form-control" id="loginPassword" name="loginPassword" onChange={updateFormData} />
               </div>
               <div class="form-group">
-                <Link class="pull-right link-color" onClick={onRegisterLinkClick}>Become a member</Link>
+                <Link class="link-color" onClick={onRegisterLinkClick}>Become a member</Link>
                 <Link class="float-right link-color" to="/forgot-password">Forgot Password?</Link>
               </div>
-              <button type="button" class="btn btn-default-color" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>Sign In</button>
+              <button type="button" class="btn btn-default-color buttonload" disabled={ formData.disableLoginButton } onClick={ handleLoginFormSubmission }>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Sign In</button>
             </form>}
             {showRegisterScreen && <form onSubmit={ handleRegisterFormSubmission }> 
               <h3 style={{textAlign: 'center'}}>New Member</h3>
@@ -203,7 +209,7 @@ function LandingPage(props) {
               <hr/>
               <div class="form-group">
                 <label for="registerUsername">Phone Number</label>
-                <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
+                <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
               </div>
               <div class="form-group">
@@ -213,7 +219,7 @@ function LandingPage(props) {
               <div class="form-group">
                 <Link class="pull-right link-color" onClick={onLoginLinkClick}>Already a member, login</Link>
               </div>
-              <button type="button" class="btn btn-default-color" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>Become a member</button>
+              <button type="button" class="btn btn-default-color buttonload" disabled={formData.disableRegisterButton} onClick={ handleRegisterFormSubmission }>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Become a member</button>
             </form>}
             {showOtpScreen && <form onSubmit={ handleOtpVerification }> 
               <h3 style={{textAlign: 'center'}}>Phone Number Verification</h3>
@@ -226,7 +232,7 @@ function LandingPage(props) {
                 <label for="registerUsername">OTP</label>
                 <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
               </div>
-              <button type="button" class="btn btn-default-color" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>Verify</button>
+              <button type="button" class="btn btn-default-color buttonload" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Verify</button>
               <a onClick={ handleSendOtp } class="pull-right link-color">Resend OTP</a>
             </form>}
           </div>
