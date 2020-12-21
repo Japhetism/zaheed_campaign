@@ -1,0 +1,8 @@
+[
+    {
+        "api_status": 401,
+        "http_status": 401,
+        "api_error_message": "Unauthorized",
+        "error_message_to_user": "Invalid login credentials"
+    }
+]
