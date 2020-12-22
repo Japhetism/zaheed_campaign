@@ -312,4 +312,10 @@ a.article:hover {
 .error {
     color: red;
 }
+
+.error-404 {
+    color: #FA8223;
+    font-size: 300px;
+    font-weight: bold;
+}
   

@@ -12,18 +12,20 @@ import ProfileScreen from './screens/profile'
 import ForgotPasswordScreen from './screens/forgot-password'
 import DashboardScreen from './screens/home/dashboard'
 import ResetPasswordScreen from './screens/reset-password'
+import ErrorScreen from './screens/error'
 
 function App() {
   return (
     <Router>
-      <switch>
+      <Switch>
           <Route exact path="/" component={LandingPageScreen} />
           <Route exact path="/login" component={LandingPageScreen} />
           <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/forgot-password" component={ForgotPasswordScreen} />
-          <Route exact path="/reset-password" component={ResetPasswordScreen} />
-        <Route exact path="/home" component={DashboardScreen} />
-      </switch>
+          <Route exact path="/reset-password/:token" component={ResetPasswordScreen} />
+          <Route exact path="/home" component={DashboardScreen} />
+          <Route component={ErrorScreen} />
+      </Switch>
     </Router>
   );
 }

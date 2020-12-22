@@ -3,9 +3,10 @@ import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
 import { authentication } from '../../mixins/api'
 import { checkPasswordIsValid, checkPasswordIsMatch } from '../../utils/validator'
+import { Link, Redirect } from 'react-router-dom'
 
-function ResetPassword() {
-  const firstRender = useRef(true)
+function ResetPassword(props) {
+  const firstRender = useRef(true)  
     
   const [formData, setFormData] = useState({
     errorMessage: "",
@@ -16,6 +17,7 @@ function ResetPassword() {
     password: "",
     confirmPassword: "",
     isLoading: false,
+    token: ""
   })
 
   const updateFormData = e => {
@@ -47,9 +49,11 @@ function ResetPassword() {
 
   useEffect(() => {
     if(firstRender.current) {
+      const { token } = props.match.params;
+      setFormData(prevState => ({...prevState, token: token}))
       firstRender.current = false
       return
-    }
+    } 
 
     setFormData(prevState => ({ 
       ...prevState, 
