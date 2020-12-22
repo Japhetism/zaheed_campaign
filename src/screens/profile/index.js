@@ -11,6 +11,8 @@ import BloodGroups from '../../fixtures/blood-groups.json'
 import Sex from '../../fixtures/sex.json'
 import Cities from '../../fixtures/cities.json'
 import States from '../../fixtures/states.json'
+import Subscriptions from '../../fixtures/subscriptions.json'
+import { convertToMinor } from '../../utils/converter'
 
 function Profile() {
   const loadScript = (src) => {
@@ -28,6 +30,7 @@ function Profile() {
   }
 
   const displayRazorpay = async () => {
+    setFormData(prevState => ({...prevState, errorMessage: '', disablePaymentButton: true, isPaymentLoading: true}))
     let errorMessage = ""
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -38,7 +41,7 @@ function Profile() {
       setFormData({...formData, errorMessage: errorMessage})
       return;
     }
-    const result = await axios.post("http://localhost:5000/payment/orders");
+    const result = await axios.post("http://localhost:5000/payment/orders", {amount: convertToMinor(formData.subscription)});
     if (!result) {
       errorMessage = "An error occurred, please try again"
       alert(errorMessage)
@@ -51,7 +54,7 @@ function Profile() {
       amount: amount.toString(),
       currency: currency,
       name: "Brigade Congress.",
-      description: "Test Transaction",
+      description: "Subscription Payment",
       image: { logo },
       order_id: order_id,
       handler: async function (response) {
@@ -143,7 +146,9 @@ function Profile() {
     title: "",
     disablePaymentButton: true,
     successMessage: null,
-    errorMessage: null
+    errorMessage: null,
+    isLoading: false,
+    isPaymentLoading: false
   })
 
   const updateFormData = e => {
@@ -160,7 +165,7 @@ function Profile() {
   }
 
   const formValidation = () => {
-    if(formData.firstName && formData.lastName && formData.email && formData.phoneNumber) {
+    if(formData.firstName && formData.lastName && formData.email && formData.phoneNumber && formData.subscription) {
       return false;
     }else{
       return true
@@ -384,6 +389,7 @@ function Profile() {
                   <label for="exampleInputEmail1">Subscription Type</label>
                   <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {Subscriptions.map(value=><option value={value.price}>{value.name} - &#8377;{value.price}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
@@ -393,10 +399,10 @@ function Profile() {
               </div>
               <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                  <button type="button" class="btn btn-default-color">Save</button>
+                  <button type="button" class="btn btn-default-color buttonload">{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Save</button>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 payment-button">
-                  <button type="button" onClick={ displayRazorpay } class="btn btn-default-color" disabled={formData.disablePaymentButton}>Proceed to Payment</button>
+                  <button type="button" onClick={ displayRazorpay } class="btn btn-default-color buttonload" disabled={formData.disablePaymentButton}>{formData.isPaymentLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Proceed to Payment</button>
                 </div>
               </div>
             </form>
