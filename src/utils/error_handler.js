@@ -3,7 +3,7 @@ import ErrorTypes from '../fixtures/error_types'
 export class ApiErrorHandler {
 
     _getErrorTypeResponse (parsedErrorResponse) {
-        return ErrorTypes.find(value => (value.api_error_message === parsedErrorResponse.error_message) || (value.status === parsedErrorResponse.status)) || parsedErrorResponse
+        return ErrorTypes.find(value => (value.api_error_message === parsedErrorResponse.error_message)) || parsedErrorResponse
     }
 
     _parsedApiErrorResponse (apiErrorResponse) {
@@ -19,7 +19,7 @@ export class ApiErrorHandler {
 
         apiErrorObject.status = apiErrorResponse.status;
 
-        apiErrorObject.error_message = apiErrorResponse.description || apiErrorResponse.error
+        apiErrorObject.error_message = apiErrorResponse.error
         
         apiErrorObject.error_message_to_user = apiErrorObject.error_message;
 
@@ -33,7 +33,6 @@ export class ApiErrorHandler {
           this._getErrorTypeResponse(parsedApiErrorResponse).error_message_to_user || 
           process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
         );
-
         
         return errorMessage;
     }

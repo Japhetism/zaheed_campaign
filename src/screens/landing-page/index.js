@@ -70,7 +70,7 @@ function LandingPage(props) {
     if(status === SUCCESS_STATUS) {
 
     }else{
-      const errorMessage = response.error ? response.error : process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
+      const errorMessage = response
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableLoginButton: false, isLoading: false}))
     }
   }
@@ -92,7 +92,7 @@ function LandingPage(props) {
     }else{
       console.log(response.description)
       console.log(process.env.REACT_APP_DEFAULT_ERROR_MESSAGE)
-      const errorMessage = response.description ? response.description : process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
+      const errorMessage = response
       console.log(errorMessage)
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
     }
