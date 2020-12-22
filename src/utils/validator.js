@@ -12,5 +12,5 @@ export function checkPhoneIsValid (phone) {
 }
 
 export function checkPasswordIsValid (password) {
-    return password.length === 4
+    return password.length >= 4
 }

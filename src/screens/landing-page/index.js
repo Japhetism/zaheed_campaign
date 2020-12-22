@@ -26,6 +26,7 @@ function LandingPage(props) {
     redirect: false,
     isLoading: false,
     isLoginUsernameValid: false,
+    isRegisterUsernameValid: false,
     isPasswordValid: false,
   })
 
@@ -83,7 +84,7 @@ function LandingPage(props) {
     setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true, isLoading: true}))
     const registerFormData = {
       password: formData.registerPassword,
-      phoneNumber: formData.registerUsername
+      phoneNumber: stripHyphenFromString(formData.registerUsername)
     }
     const registerResponseObj = await authentication.registerUser(registerFormData)
     const { status, response } = registerResponseObj
@@ -137,8 +138,10 @@ function LandingPage(props) {
     setFormData(prevState => ({ 
       ...prevState, 
       disableLoginButton: loginFormValidation() || !checkPhoneIsValid(stripHyphenFromString(formData.loginUsername)), 
-      disableRegisterButton: registerFormValidation(),
-      isLoginUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.loginUsername))
+      disableRegisterButton: registerFormValidation() || !checkPhoneIsValid(stripHyphenFromString(formData.registerUsername)) || !checkPasswordIsValid(formData.registerPassword),
+      isLoginUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.loginUsername)),
+      isRegisterUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.registerUsername)),
+      isPasswordValid: checkPasswordIsValid(formData.registerPassword)
     }))
   }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername])
 
@@ -210,10 +213,12 @@ function LandingPage(props) {
                 <label for="registerUsername">Phone Number</label>
                 <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+                {formData.registerUsername && !formData.isRegisterUsernameValid && <small id="emailHelp" class="form-text error">Invalid phone number.</small>}
               </div>
               <div class="form-group">
                 <label for="registerPassword">Password</label>
                 <input type="password" class="form-control" id="registerPassword" name="registerPassword" onChange={updateFormData} />
+                {formData.registerPassword && !formData.isPasswordValid && <small id="emailHelp" class="form-text error">Password must be minimum of 4 characters long.</small>}
               </div>
               <div class="form-group">
                 <Link class="pull-right link-color" onClick={onLoginLinkClick}>Already a member, login</Link>
