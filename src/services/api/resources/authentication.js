@@ -42,5 +42,19 @@ export default class Authentication {
           body: data
         })
     }
+
+    forgotPassword (data) {
+        return this.apiRequester.post({
+            endpoint: 'forgot-password',
+            body: data
+        })
+    }
+
+    resetPassword (data) {
+        return this.apiRequester.post({
+            endpoint: 'reset-password',
+            body: data
+        })
+    }
   
 }
