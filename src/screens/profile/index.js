@@ -1,8 +1,14 @@
 import logo from '../../assets/images/logo.png'
 import axios from 'axios'
+import { Link, Redirect } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
+import { retrieveStoredData } from '../../utils/storage'
+import Salutations from '../../fixtures/salutations.json'
+import AccountTypes from '../../fixtures/account-types.json'
+import BloodGroups from '../../fixtures/blood-groups.json'
+import Sex from '../../fixtures/sex.json'
 
 function Profile() {
   const loadScript = (src) => {
@@ -72,6 +78,7 @@ function Profile() {
   }
 
   const firstRender = useRef(true)
+  const [redirectToLogin, setRedirectToLogin] = useState(false)
   const [formData, setFormData] = useState({
     aadharOrPAN: "",
     accountType: "",
@@ -142,7 +149,6 @@ function Profile() {
   }
 
   const encodeImageFileAsURL = (element) => {
-    console.log(element.target.files)
     var file = element.target.files[0];
     var reader = new FileReader();
     reader.onloadend = function() {
@@ -161,12 +167,22 @@ function Profile() {
 
   useEffect(() => {
     if(firstRender.current) {
+      const retrievedUserInfo = JSON.parse(retrieveStoredData("userInfo"))
+      if(!retrievedUserInfo) {
+        setRedirectToLogin(true)
+      }else{
+        setFormData(prevState => ({ ...prevState, phoneNumber: retrievedUserInfo.phoneNumber}))
+      }
       firstRender.current = false
       return
     }
-    console.log(formData)
+    
     setFormData(prevState => ({ ...prevState, disablePaymentButton: formValidation()}))
   }, [formData.email, formData.firstName, formData.lastName, formData.email, formData.phoneNumber])
+
+  if(redirectToLogin) {
+    return <Redirect to="/login" />
+  }
 
   return (
     <div class="container-fluid">
@@ -203,7 +219,7 @@ function Profile() {
                   <label for="exampleInputEmail1">Salutation</label>
                   <select class="form-control" id="salutation" name="salutation" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
-
+                    {Salutations.map(value=><option value={value.value}>{value.name}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
@@ -232,7 +248,7 @@ function Profile() {
               <div class="form-group row">
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Phone Number</label>
-                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}/>
+                  <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" defaultValue={formData.phoneNumber} class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" onChange={updateFormData}/>
                 </div>
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Password</label>
@@ -242,6 +258,7 @@ function Profile() {
                   <label for="exampleInputEmail1">Account Type</label>
                   <select class="form-control" id="accountType" name="accountType" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {AccountTypes.map(value=><option value={value.value}>{value.name}</option>)}
                   </select>
                 </div>
               </div>
@@ -250,12 +267,14 @@ function Profile() {
                   <label for="exampleInputEmail1">Blood Group</label>
                   <select type="text" class="form-control" id="bloodGroup" name="bloodGroup" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {BloodGroups.map(value=><option value={value.value}>{value.name}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Sex</label>
                   <select class="form-control" id="sex" name="sex" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {Sex.map(value=><option value={value.value}>{value.name}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">

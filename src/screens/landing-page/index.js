@@ -5,6 +5,7 @@ import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
 import { stripHyphenFromString } from '../../utils/helper'
 import { checkPhoneIsValid, checkPasswordIsValid } from '../../utils/validator'
+import { saveData } from '../../utils/storage'
 
 function LandingPage(props) {
 
@@ -86,12 +87,14 @@ function LandingPage(props) {
       password: formData.registerPassword,
       phoneNumber: stripHyphenFromString(formData.registerUsername)
     }
+    saveData("userInfo", JSON.stringify(registerFormData))
     const registerResponseObj = await authentication.registerUser(registerFormData)
     const { status, response } = registerResponseObj
     if(status === SUCCESS_STATUS) {
       setShowOtpScreen(true)
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
+      //saveData("userInfo", JSON.stringify(registerFormData))
     }else{
       const errorMessage = response
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
