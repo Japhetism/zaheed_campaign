@@ -9,6 +9,8 @@ import Salutations from '../../fixtures/salutations.json'
 import AccountTypes from '../../fixtures/account-types.json'
 import BloodGroups from '../../fixtures/blood-groups.json'
 import Sex from '../../fixtures/sex.json'
+import Cities from '../../fixtures/cities.json'
+import States from '../../fixtures/states.json'
 
 function Profile() {
   const loadScript = (src) => {
@@ -301,6 +303,7 @@ function Profile() {
                   <label for="exampleInputEmail1">City/Town</label>
                   <select class="form-control" id="city" name="city" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {Cities.map(value=><option value={value.name}>{value.name}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
@@ -323,12 +326,14 @@ function Profile() {
                   <label for="exampleInputEmail1">State</label>
                   <select class="form-control" id="state" name="state" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    {States.map(value=><option value={value.val}>{value.val}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Country</label>
                   <select class="form-control" id="country" name="country" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
+                    <option value="India">India</option>
                   </select>
                 </div>
               </div>
