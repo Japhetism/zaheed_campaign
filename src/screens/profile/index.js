@@ -165,7 +165,7 @@ function Profile() {
   }
 
   const formValidation = () => {
-    if(formData.firstName && formData.lastName && formData.email && formData.phoneNumber && formData.subscription) {
+    if(formData.firstName && formData.lastName && formData.email && formData.subscription) {
       return false;
     }else{
       return true
@@ -255,7 +255,7 @@ function Profile() {
               <div class="form-group row">
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Phone Number</label>
-                  <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" defaultValue={formData.phoneNumber} class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" onChange={updateFormData}/>
+                  <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" defaultValue={formData.phoneNumber} disabled={true} class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" onChange={updateFormData}/>
                 </div>
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Password</label>
