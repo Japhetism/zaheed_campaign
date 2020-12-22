@@ -2,15 +2,20 @@ import React, { useRef, useState, useEffect } from 'react'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
 import { authentication } from '../../mixins/api'
+import { checkPasswordIsValid, checkPasswordIsMatch } from '../../utils/validator'
 
 function ResetPassword() {
   const firstRender = useRef(true)
     
   const [formData, setFormData] = useState({
-    email: "",
     errorMessage: "",
     successMessage: "",
-    disableButton: true
+    disableButton: true,
+    isPasswordValid: false,
+    isPasswordMatch: false,
+    password: "",
+    confirmPassword: "",
+    isLoading: false,
   })
 
   const updateFormData = e => {
@@ -26,17 +31,17 @@ function ResetPassword() {
   }
 
   const handleResetPasswordSubmission = async () => {
-    setFormData(prevState => ({...prevState, errorMessage: '', disableButton: true}))
+    setFormData(prevState => ({...prevState, errorMessage: '', disableButton: true, isLoading: true}))
     const resetPasswordFormData = {
         password: formData.password,
         confirmPassword: formData.confirmPassword
     }
-    const forgotPasswordResponseObj = await authentication.loginUser(resetPasswordFormData)
+    const forgotPasswordResponseObj = await authentication.resetPassword(resetPasswordFormData)
     const { status, response } = forgotPasswordResponseObj
     if(status === SUCCESS_STATUS) {
 
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response.error, disableButton: false}))
+      setFormData(prevState => ({...prevState, errorMessage: response, disableButton: false, isLoading: false}))
     }
   }
 
@@ -46,8 +51,13 @@ function ResetPassword() {
       return
     }
 
-    setFormData(prevState => ({ ...prevState, disableButton: formValidation()}))
-  }, [formData.email])
+    setFormData(prevState => ({ 
+      ...prevState, 
+      disableButton: !checkPasswordIsValid(formData.password) || !checkPasswordIsMatch(formData.password, formData.confirmPassword),
+      isPasswordValid: checkPasswordIsValid(formData.password),
+      isPasswordMatch: checkPasswordIsMatch(formData.password, formData.confirmPassword)
+    }))
+  }, [formData.password, formData.confirmPassword])
 
   return (
     <div class="container h-100 forgot-password">
@@ -64,12 +74,14 @@ function ResetPassword() {
             <div class="form-group">
               <label for="exampleInputEmail1">Password</label>
               <input type="text" class="form-control" id="password" name="password" aria-describedby="emailHelp" onChange={updateFormData} />
+              {formData.password && !formData.isPasswordValid && <small id="emailHelp" class="form-text error">Password must be minimum of 4 characters long.</small>}
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Confirm Password</label>
               <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" aria-describedby="emailHelp" onChange={updateFormData} />
+              {formData.confirmPassword && !formData.isPasswordMatch && <small id="emailHelp" class="form-text error">Password does not match.</small>}
             </div>
-            <button type="button" class="btn btn-default-color" disabled={ formData.disableButton } onClick={ handleResetPasswordSubmission }>Reset Password</button>
+            <button type="button" class="btn btn-default-color buttonload" disabled={ formData.disableButton } onClick={ handleResetPasswordSubmission }>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Reset Password</button>
           </form>
         </div>
       </div>

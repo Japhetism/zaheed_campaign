@@ -15,6 +15,10 @@ export function checkPasswordIsValid (password) {
     return password.length >= 4
 }
 
+export function checkPasswordIsMatch (password, confirmPassword) {
+    return password === confirmPassword
+}
+
 export function checkEmailIsValid (email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
