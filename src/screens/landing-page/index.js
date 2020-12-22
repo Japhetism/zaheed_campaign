@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom'
 import { authentication } from '../../mixins/api'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
+import { stripHyphenFromString } from '../../utils/helper'
+import { checkPhoneIsValid, checkPasswordIsValid } from '../../utils/validator'
 
 function LandingPage(props) {
 
@@ -23,6 +25,8 @@ function LandingPage(props) {
     disableOtpButton: false,
     redirect: false,
     isLoading: false,
+    isLoginUsernameValid: false,
+    isPasswordValid: false,
   })
 
   const onRegisterLinkClick = () => {
@@ -63,7 +67,7 @@ function LandingPage(props) {
     setFormData(prevState => ({...prevState, errorMessage: '', disableLoginButton: true, isLoading: true}))
     const loginFormData = {
       password: formData.loginPassword,
-      phoneNumber: formData.loginUsername
+      phoneNumber: stripHyphenFromString(formData.loginUsername)
     }
     const loginResponseObj = await authentication.loginUser(loginFormData)
     const { status, response } = loginResponseObj
@@ -77,7 +81,6 @@ function LandingPage(props) {
 
   const handleRegisterFormSubmission = async (e) => {
     setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true, isLoading: true}))
-    console.log(formData)
     const registerFormData = {
       password: formData.registerPassword,
       phoneNumber: formData.registerUsername
@@ -85,15 +88,11 @@ function LandingPage(props) {
     const registerResponseObj = await authentication.registerUser(registerFormData)
     const { status, response } = registerResponseObj
     if(status === SUCCESS_STATUS) {
-      console.log(response)
       setShowOtpScreen(true)
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
     }else{
-      console.log(response.description)
-      console.log(process.env.REACT_APP_DEFAULT_ERROR_MESSAGE)
       const errorMessage = response
-      console.log(errorMessage)
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
     }
   }
@@ -103,7 +102,6 @@ function LandingPage(props) {
     const sendOtpResponseObj = await authentication.sendOtp(formData.registerUsername)
     const { status, response } = sendOtpResponseObj
     if(status === SUCCESS_STATUS) {
-      console.log(response)
       setFormData(prevState => ({...prevState, successMessage: "OTP sent successfully"}))
     }else{
       setFormData(prevState => ({...prevState, errorMessage: response.error}))
@@ -112,7 +110,6 @@ function LandingPage(props) {
 
   const handleOtpVerification = async (e) => {
     setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true, isLoading: true}))
-    console.log(formData)
     const verifyOtpFormData = {
       otp: formData.otp,
       sessionId: '23434434'
@@ -120,7 +117,6 @@ function LandingPage(props) {
     const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
     const { status, response } = verifyOtpResponseObj
     if(status === SUCCESS_STATUS) {
-      console.log(response)
       setFormData(prevState => ({...prevState, redirect: true}))
       props.history.push("/profile");
     }else{
@@ -138,10 +134,12 @@ function LandingPage(props) {
       return <Redirect to="profile" />   
     }
       
-    
-    console.log(loginFormValidation())
-    console.log(formData)
-    setFormData(prevState => ({ ...prevState, disableLoginButton: loginFormValidation(), disableRegisterButton: registerFormValidation() }))
+    setFormData(prevState => ({ 
+      ...prevState, 
+      disableLoginButton: loginFormValidation() || !checkPhoneIsValid(stripHyphenFromString(formData.loginUsername)), 
+      disableRegisterButton: registerFormValidation(),
+      isLoginUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.loginUsername))
+    }))
   }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername])
 
   return (
@@ -189,6 +187,7 @@ function LandingPage(props) {
                 <label for="loginUsername">Phone Number</label>
                 <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" class="form-control" id="loginUsername" name="loginUsername" aria-describedby="emailHelp" onChange={updateFormData} />
                 <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+                {formData.loginUsername && !formData.isLoginUsernameValid && <small id="emailHelp" class="form-text error">Invalid phone number.</small>}
               </div>
               <div class="form-group">
                 <label for="loginPassword">Password</label>

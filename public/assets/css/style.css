@@ -308,4 +308,8 @@ a.article:hover {
 .fa {
     margin-right: 8px;
 }
+
+.error {
+    color: red;
+}
   
