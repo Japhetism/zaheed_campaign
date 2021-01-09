@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import LatestNews from  './components/latest-news'
 import NewsSlider from './components/news-slider'
+import BreadCrumb from '../../../components/breadcrumb'
 
 function Dashboard() {
+    const [formData, setFormData] = useState({
+        navigationLinks: [
+            {name: 'Home', to: '/home', isActive: true}
+        ]
+    })
     useEffect(() => {
         const script = document.createElement("script")
         script.src = "./assets/carousel.js"
@@ -11,6 +17,9 @@ function Dashboard() {
     })
     return (
         <React.Fragment>
+            <BreadCrumb 
+                links={formData.navigationLinks}
+            />
             <LatestNews />
             <NewsSlider />
         </React.Fragment>
