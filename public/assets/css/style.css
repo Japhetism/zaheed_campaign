@@ -337,4 +337,9 @@ a.article:hover {
     border-radius: 50%;
     display: inline-block
 }
+
+.username {
+    font-size: 17px;
+    margin-right: 10px;
+}
   
