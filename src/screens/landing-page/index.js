@@ -21,6 +21,7 @@ function LandingPage(props) {
     errorMessage: '',
     successMessage: '',
     otp: '',
+    sessionId: '',
     disableLoginButton: true,
     disableRegisterButton: true,
     disableOtpButton: false,
@@ -94,7 +95,8 @@ function LandingPage(props) {
       setShowOtpScreen(true)
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
-      //saveData("userInfo", JSON.stringify(registerFormData))
+      setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true, isLoading: false, sessionId: response.data.otpSession}))
+      saveData("userInfo", JSON.stringify(response.data))
     }else{
       const errorMessage = response
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
@@ -116,7 +118,7 @@ function LandingPage(props) {
     setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true, isLoading: true}))
     const verifyOtpFormData = {
       otp: formData.otp,
-      sessionId: '23434434'
+      sessionId: formData.sessionId
     }
     const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
     const { status, response } = verifyOtpResponseObj
@@ -124,7 +126,7 @@ function LandingPage(props) {
       setFormData(prevState => ({...prevState, redirect: true}))
       props.history.push("/profile");
     }else{
-      setFormData(prevState => ({...prevState, errorMessage: response ? response.error : "Something went wrong", disableOtpButton: false, isLoading: false}))
+      setFormData(prevState => ({...prevState, errorMessage: response, disableOtpButton: false, isLoading: false}))
     }
   }
 
@@ -236,8 +238,8 @@ function LandingPage(props) {
               />
               <hr/>
               <div class="form-group">
-                <label for="registerUsername">OTP</label>
-                <input type="text" class="form-control" id="registerUsername" name="registerUsername" aria-describedby="emailHelp"  onChange={updateFormData}/>
+                <label for="otp">OTP</label>
+                <input type="text" class="form-control" id="otp" name="otp" aria-describedby="emailHelp"  onChange={updateFormData}/>
               </div>
               <button type="button" class="btn btn-default-color buttonload" disabled={formData.disableOtpButton} onClick={ handleOtpVerification }>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Verify</button>
               <a onClick={ handleSendOtp } class="pull-right link-color">Resend OTP</a>

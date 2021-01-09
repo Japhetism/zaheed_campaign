@@ -38,8 +38,8 @@ export default class Authentication {
 
     verifyOtp (data) {
         return this.apiRequester.post({
-          endpoint: 'verify-otp',
-          body: data
+            endpoint: 'verify-otp',
+            body: data
         })
     }
 

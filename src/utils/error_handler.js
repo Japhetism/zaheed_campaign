@@ -19,7 +19,7 @@ export class ApiErrorHandler {
 
         apiErrorObject.status = apiErrorResponse.status;
 
-        apiErrorObject.error_message = apiErrorResponse.error
+        apiErrorObject.error_message = apiErrorResponse.error || apiErrorResponse.description
         
         apiErrorObject.error_message_to_user = apiErrorObject.error_message;
 

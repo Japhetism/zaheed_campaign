@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-function AccountSettings() {
+function Events() {
 
   return (
     <div class="wrapper">
@@ -13,13 +13,13 @@ function AccountSettings() {
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active">
+            <li>
                 <Link to="/home">Home</Link>
             </li>
             <li>
                 <Link to="/home/domains">Domains</Link>
             </li>
-            <li>
+            <li class="active">
                 <Link to="/home/events">Events</Link>
             </li>
             <li>
@@ -51,7 +51,7 @@ function AccountSettings() {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
-                    <h3>ACCOUNT SETTINGS</h3>
+                    <h3>EVENT MANAGEMENT</h3>
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
@@ -132,4 +132,4 @@ function AccountSettings() {
   );
 }
 
-export default AccountSettings;
+export default Events;

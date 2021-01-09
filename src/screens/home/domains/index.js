@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-function AccountSettings() {
+function Domains() {
 
   return (
     <div class="wrapper">
@@ -13,10 +13,10 @@ function AccountSettings() {
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active">
+            <li>
                 <Link to="/home">Home</Link>
             </li>
-            <li>
+            <li class="active">
                 <Link to="/home/domains">Domains</Link>
             </li>
             <li>
@@ -51,7 +51,7 @@ function AccountSettings() {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
-                    <h3>ACCOUNT SETTINGS</h3>
+                    <h3>DOMAIN MANAGEMENT</h3>
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
@@ -86,42 +86,42 @@ function AccountSettings() {
             </nav>
             <section>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                Change Password<small> Change your account password</small>
+                                All Domains
                             </div>
                             <div class="card-body">
-                                <form>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">Current Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">New Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">Confirm Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary">Change Password</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                Additional Settings
-                            </div>
-                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Doamin 1</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Doamin 2</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Doamin 3</td>
+                                            <td><span class="badge badge-danger">Inactive</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -132,4 +132,4 @@ function AccountSettings() {
   );
 }
 
-export default AccountSettings;
+export default Domains;

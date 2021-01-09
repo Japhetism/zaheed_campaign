@@ -14,7 +14,13 @@ function UserProfile() {
 
         <ul class="list-unstyled components">
             <li class="active">
-                <a href="#homeSubmenu">Home</a>
+                <Link to="/home">Home</Link>
+            </li>
+            <li>
+                <Link to="/home/domains">Domains</Link>
+            </li>
+            <li>
+                <Link to="/home/events">Events</Link>
             </li>
             <li>
                 <a href="#">About</a>

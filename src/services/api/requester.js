@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { DELETE_METHOD, GET_METHOD, POST_METHOD, PUT_METHOD } from '../../constants/api'
+import { getAccessToken } from '../../utils/storage'
 
 export default class Requester {
   constructor(props) {
@@ -34,15 +35,17 @@ export default class Requester {
   }
 
   async _makeHttpRequest(params) {
+    const accessToken = getAccessToken()
+    console.log(accessToken)
     let { url, method, headers, args, body } = params;
 
     if(headers) {
       headers['content-type'] = 'application/json'
-      //headers['Authorization'] = `${authToken}`
+      headers['Authorization'] = `${accessToken}`
     }else{
       headers = {
         'content-type': 'application/json',
-        //'Authorization': `${authToken}`,
+        'Authorization': `${accessToken}`,
       }
     }
 
