@@ -75,7 +75,9 @@ function LandingPage(props) {
     const loginResponseObj = await authentication.loginUser(loginFormData)
     const { status, response } = loginResponseObj
     if(status === SUCCESS_STATUS) {
-
+      saveData("userInfo", JSON.stringify(response))
+      setFormData(prevState => ({...prevState, disableLoginButton: true, isLoading: false}))
+      props.history.push("/home");
     }else{
       const errorMessage = response
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableLoginButton: false, isLoading: false}))

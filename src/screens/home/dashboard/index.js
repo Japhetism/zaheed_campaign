@@ -3,6 +3,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 function Dashboard() {
+    useEffect(() => {
+  
+        const script = document.createElement("script")
+        script.src = "./assets/carousel.js"
+        script.async = true
+        document.body.appendChild(script)
+    })
 
   return (
     <div class="wrapper">
