@@ -1,5 +1,6 @@
 //import logo from './logo.svg';
 import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 function AccountSettings() {
 
@@ -67,9 +68,9 @@ function AccountSettings() {
                                     <i class="fa fa-user fa-2x"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <a class="dropdown-item" href="#">Account Settings</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <Link class="dropdown-item" to="/home/user-profile">Profile</Link>
+                                    <Link class="dropdown-item" to="/home/account-settings">Account Settings</Link>
+                                    <Link class="dropdown-item" to="/login">Logout</Link>
                                 </div>
                             </div>
                             </li>
@@ -77,59 +78,49 @@ function AccountSettings() {
                     </div>
                 </div>
             </nav>
-            <div class="container mt-5">
+            <section>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center breaking-news bg-white">
-                            <div class="d-flex flex-row flex-grow-1 flex-fill justify-content-center bg-danger py-2 text-white px-1 news"><span class="d-flex align-items-center">&nbsp;Latest News</span></div>
-                            <marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <a href="#">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> <span class="dot"></span> <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut </a> <span class="dot"></span> <a href="#">Duis aute irure dolor in reprehenderit in voluptate velit esse </a> </marquee>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Change Password<small> Change your account password</small>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">Current Password</label>
+                                        <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="inputPassword" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">New Password</label>
+                                        <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="inputPassword" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">Confirm Password</label>
+                                        <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="inputPassword" />
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Change Password</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Additional Settings
+                            </div>
+                            <div class="card-body">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="wrapper">
-                <div class="d-carousel">
-                    <ul class="carousel">
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt. </p>
-                        </li>
-                        <li> <a href="#"><img src="../../assets/css/news/style/images/carousel.jpg" alt="" class="img-news" /></a>
-                            <h4><a href="#">Cras varius, sapien egetory sagittis</a></h4>
-                            <p>Suspendisse potenti. Nibh miry, ultricies ac molestie sit ameter vestibulum eget nunc. Vivamus vitae aliquam odio. Morbi sit amet odio tincidunt.</p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
-            </div>
+            </section>
         </div>                    
     </div>
   );

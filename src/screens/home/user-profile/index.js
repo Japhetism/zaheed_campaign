@@ -1,5 +1,6 @@
 //import logo from './logo.svg';
 import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 function UserProfile() {
 
@@ -67,9 +68,9 @@ function UserProfile() {
                                     <i class="fa fa-user fa-2x"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <a class="dropdown-item" href="#">Account Settings</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <Link class="dropdown-item" to="/home/user-profile">Profile</Link>
+                                    <Link class="dropdown-item" to="/home/account-settings">Account Settings</Link>
+                                    <Link class="dropdown-item" to="/login">Logout</Link>
                                 </div>
                             </div>
                             </li>
