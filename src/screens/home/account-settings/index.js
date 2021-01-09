@@ -1,8 +1,7 @@
 //import logo from './logo.svg';
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 
-function Dashboard() {
+function AccountSettings() {
 
   return (
     <div class="wrapper">
@@ -45,7 +44,7 @@ function Dashboard() {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
-                    <h3>HOME</h3>
+                    <h3>ACCOUNT SETTINGS</h3>
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
@@ -68,9 +67,9 @@ function Dashboard() {
                                     <i class="fa fa-user fa-2x"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <Link class="dropdown-item" to="/home/user-profile">Profile</Link>
-                                    <Link class="dropdown-item" to="/home/account-settings">Account Settings</Link>
-                                    <Link class="dropdown-item" to="/login">Logout</Link>
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="#">Account Settings</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
                                 </div>
                             </div>
                             </li>
@@ -136,4 +135,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AccountSettings;

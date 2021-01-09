@@ -342,4 +342,22 @@ a.article:hover {
     font-size: 17px;
     margin-right: 10px;
 }
-  
+
+.uploaded-profile-photo {
+    width: 250px;
+    height: 200px;
+    margin-top: 40px;   
+    margin-left: 15px;
+}
+
+.uploaded-profile-photo-container {
+    border: 2px solid grey;
+    box-shadow: grey;
+    border-radius: 10px;
+    height: 300px;
+}
+
+.uploaded-id {
+    width: 100px;
+    height: 200px;
+}
