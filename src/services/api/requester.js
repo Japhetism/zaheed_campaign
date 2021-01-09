@@ -36,7 +36,6 @@ export default class Requester {
 
   async _makeHttpRequest(params) {
     const accessToken = getAccessToken()
-    console.log(accessToken)
     let { url, method, headers, args, body } = params;
 
     if(headers) {

@@ -11,6 +11,7 @@ import ForgotPasswordScreen from './screens/forgot-password'
 import ResetPasswordScreen from './screens/reset-password'
 import ErrorScreen from './screens/error'
 import HomeScreen from './screens/home'
+import LogoutScreen from './screens/logout'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/forgot-password" component={ForgotPasswordScreen} />
           <Route exact path="/reset-password/:token" component={ResetPasswordScreen} />
           <Route path="/home" component={HomeScreen} />
+          <Route exact path="/logout" component={LogoutScreen} />
           <Route component={ErrorScreen} />
       </Switch>
     </Router>

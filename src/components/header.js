@@ -20,7 +20,7 @@ function Header() {
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <Link class="dropdown-item" to="/home/user-profile">Profile</Link>
                                     <Link class="dropdown-item" to="/home/account-settings">Account Settings</Link>
-                                    <Link class="dropdown-item" to="/login">Logout</Link>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
                                 </div>
                             </div>
                         </li>
