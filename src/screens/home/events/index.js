@@ -86,42 +86,42 @@ function Events() {
             </nav>
             <section>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                Change Password<small> Change your account password</small>
+                                All Events
                             </div>
                             <div class="card-body">
-                                <form>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">Current Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">New Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-4 col-form-label">Confirm Password</label>
-                                        <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="inputPassword" />
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary">Change Password</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                Additional Settings
-                            </div>
-                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Event 1</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Event 2</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Event 3</td>
+                                            <td><span class="badge badge-danger">Inactive</span></td>
+                                            <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
