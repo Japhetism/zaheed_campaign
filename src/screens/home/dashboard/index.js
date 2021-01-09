@@ -90,104 +90,18 @@ function Dashboard() {
                     </div>
                 </div>
             </nav>
-            <div class="row">
-                <div class="col-lg-8">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="../../../assets/images/00-yahoo-homepage.jpg" alt="First slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/BBC News.jpg" alt="Second slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/bbc_web2.jpg" alt="Third slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/BBC News.jpg" alt="Second slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/bbc_web2.jpg" alt="Third slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/BBC News.jpg" alt="Second slide" />
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../../../assets/images/bbc_web2.jpg" alt="Third slide" />
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-                </div>
-                <div class="col-lg-4 static-news">
+            <div class="container mt-5">
                 <div class="row">
-                    <div class="col-lg-5">
-                    <img class="d-block w-100" src="../../../assets/images/logo.png" style={{height: '105px'}} alt="First slide" />
-                    </div>
-                    <div class="col-lg-7">
-                        <article>Business</article>
-                        <p>
-                            <strong>Mauris porta quam a lorem honcus</strong><br/>
-                            <small>December 8, 2020</small>
-                        </p>
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center breaking-news bg-white">
+                            <div class="d-flex flex-row flex-grow-1 flex-fill justify-content-center bg-danger py-2 text-white px-1 news"><span class="d-flex align-items-center">&nbsp;Latest News</span></div>
+                            <marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <a href="#">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </a> <span class="dot"></span> <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut </a> <span class="dot"></span> <a href="#">Duis aute irure dolor in reprehenderit in voluptate velit esse </a> </marquee>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-5">
-                    <img class="d-block w-100" src="../../../assets/images/logo.png" style={{height: '105px'}} alt="First slide" />
-                    </div>
-                    <div class="col-lg-7">
-                        <article>Environmental</article>
-                        <p>
-                            <strong>Mauris porta quam a lorem honcus</strong><br/>
-                            <small>December 8, 2020</small>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-5">
-                    <img class="d-block w-100" src="../../../assets/images/logo.png" style={{height: '105px'}} alt="First slide" />
-                    </div>
-                    <div class="col-lg-7">
-                        <article>Video</article>
-                        <p>
-                            <strong>Mauris porta quam a lorem honcus</strong><br/>
-                            <small>December 8, 2020</small>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-5">
-                    <img class="d-block w-100" src="../../../assets/images/logo.png" style={{height: '105px'}} alt="First slide" />
-                    </div>
-                    <div class="col-lg-7">
-                        <article>Design</article>
-                        <p>
-                            <strong>Mauris porta quam a lorem honcus</strong><br/>
-                            <small>December 8, 2020</small>
-                        </p>
-                    </div>
-                </div>
-                <h6>MORE TRENDING POSTS</h6>
-                </div>
-                
             </div>
+        </div>                    
     </div>
-
-</div>
-
   );
 }
 
