@@ -1,5 +1,3 @@
-// import logo from './logo.svg';
-// import './App.css';
 import React from 'react'
 import {
   BrowserRouter as Router,
@@ -23,7 +21,7 @@ function App() {
           <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/forgot-password" component={ForgotPasswordScreen} />
           <Route exact path="/reset-password/:token" component={ResetPasswordScreen} />
-          <Route exact path="/home" component={HomeScreen} />
+          <Route path="/home" component={HomeScreen} />
           <Route component={ErrorScreen} />
       </Switch>
     </Router>

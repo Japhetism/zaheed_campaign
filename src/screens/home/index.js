@@ -23,10 +23,10 @@ function HomeScreen() {
                     <Header />
                     <Switch>
                         <Route exact path="/home" component={DashboardScreen} />
-                        <Route exact path="/home/user-profile" component={UserProfileScreen} />
-                        <Route exact path="/home/account-settings" component={AccountSettingsScreen} />
-                        <Route exact path="/home/domains" component={DomainScreen} />
-                        <Route exact path="/home/events" component={EventScreen} />
+                        <Route path="/home/user-profile" component={UserProfileScreen} />
+                        <Route path="/home/account-settings" component={AccountSettingsScreen} />
+                        <Route path="/home/domains" component={DomainScreen} />
+                        <Route path="/home/events" component={EventScreen} />
                     </Switch>
                 </div>
             </Router>                    
