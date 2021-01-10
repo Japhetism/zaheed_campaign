@@ -365,3 +365,20 @@ a.article:hover {
 .page-breadcrumb {
     margin-top: -39px !important;
 }
+
+.btn-notification {
+    background-color: #F8F9FA;
+}
+
+.align-item-center {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.notification-text {
+    border-bottom: 1px solid grey;
+}
+
