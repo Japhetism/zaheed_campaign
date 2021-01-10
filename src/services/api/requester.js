@@ -40,11 +40,11 @@ export default class Requester {
 
     if(headers) {
       headers['content-type'] = 'application/json'
-      headers['Authorization'] = `${accessToken}`
+      headers['Authorization'] = accessToken
     }else{
       headers = {
         'content-type': 'application/json',
-        'Authorization': `${accessToken}`,
+        'Authorization': accessToken,
       }
     }
 

@@ -32,17 +32,18 @@ function LandingPage(props) {
     isPasswordValid: false,
   })
 
-  const onRegisterLinkClick = () => {
-    setFormData(prevState => ({...prevState, errorMessage: null}))
-    setShowRegisterScreen(true)
-    setShowOtpScreen(false)
-    setShowLoginScreen(false)
-  }
   const onLoginLinkClick = () =>  {
     setFormData(prevState => ({...prevState, errorMessage: null}))
     setShowRegisterScreen(false)
     setShowLoginScreen(true)
     setShowOtpScreen(false)
+  }
+
+  const onRegisterLinkClick = () => {
+    setFormData(prevState => ({...prevState, errorMessage: null}))
+    setShowRegisterScreen(true)
+    setShowOtpScreen(false)
+    setShowLoginScreen(false)
   }
 
   const updateFormData = e => {
@@ -186,7 +187,7 @@ function LandingPage(props) {
       <section>
         <div class="container-fluid row">
           <div class="form col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            {showLoginScreen && <form onSubmit={ handleLoginFormSubmission }> 
+            {showLoginScreen && <form> 
               <NotificationToast 
                 successMessage={formData.successMessage}
                 errorMessage={formData.errorMessage}

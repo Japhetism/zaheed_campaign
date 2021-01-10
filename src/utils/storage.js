@@ -11,6 +11,8 @@ export function deleteStoredData(data) {
 }
 
 export function getAccessToken () {
-    const { accessToken } = JSON.parse(retrieveStoredData('userInfo'))
-    return accessToken ? `Bearer ${accessToken}` : null 
+    const userInfo = JSON.parse(retrieveStoredData('userInfo'))
+    const accessToken  = userInfo ? userInfo.accessToken : null
+    const type = userInfo ? userInfo.type : 'Bearer'
+    return accessToken ? `${type} ${accessToken}` : null 
 }
