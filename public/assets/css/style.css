@@ -382,3 +382,7 @@ a.article:hover {
     border-bottom: 1px solid grey;
 }
 
+.verification-link {
+    cursor: pointer;
+}
+
