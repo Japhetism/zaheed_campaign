@@ -11,12 +11,13 @@ function PhoneNumberVerification(props) {
     </div>
     return (
         <React.Fragment>
-            <span class="error">
+            {!props.canVerifyPhone && <span class="error">
                 * Kindly verify your phone number.&nbsp; 
                 <a onClick={ props.handleSendOtp } class="verification-link" data-toggle="modal" data-target="#exampleModal">
                     Click here for phone number verification
                 </a>
-            </span><br/><br/>
+            </span>}
+            <br/><br/>
             <Modal 
                 title={'Phone Number Verification'} 
                 body={formBody} buttonName={'Verify'} 

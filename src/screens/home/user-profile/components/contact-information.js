@@ -1,42 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-function ContactInformation() {
+function ContactInformation(props) {
     return (
         <div>
             <h5><strong>Contact Information</strong></h5>
             <form class="form-vertical">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">Email</label>
-                    <span class="col-lg-8">jamesdoe@gmail.com</span>
+                    <span class="col-lg-8">{props.profileDetails.email}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">Phone Number</label>
-                    <span class="col-lg-8">+91-4500-098712</span>
+                    <span class="col-lg-8">{props.profileDetails.phoneNumber}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">Address</label>
-                    <span class="col-lg-8">98, Mahvel Pada Rd, Virar</span>
+                    <span class="col-lg-8">{props.profileDetails.address}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">City</label>
-                    <span class="col-lg-8">Mumbai</span>
+                    <span class="col-lg-8">{props.profileDetails.city}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">State</label>
-                    <span class="col-lg-8">Maharashtra</span>
+                    <span class="col-lg-8">{props.profileDetails.state}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">PinCode</label>
-                    <span class="col-lg-8">401303</span>
+                    <span class="col-lg-8">{props.profileDetails.pinCode}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">Taluk</label>
-                    <span class="col-lg-8"></span>
+                    <span class="col-lg-8">{props.profileDetails.taluk}</span>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-lg-4">District</label>
-                    <span class="col-lg-8"></span>
+                    <span class="col-lg-8">{props.profileDetails.district}</span>
                 </div>
             </form>
             <br/><br/>

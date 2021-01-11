@@ -61,7 +61,7 @@ function UserProfile() {
     }, [formData])
 
     const handleSendOtp = async (e) => {
-        setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true}))
+        setFormData(prevState => ({...prevState, errorMessage: '', successMessage: '', disableRegisterButton: true}))
         const sendOtpResponseObj = await authentication.sendOtp(formData.registerUsername)
         const { status, response } = sendOtpResponseObj
         if(status === SUCCESS_STATUS) {
@@ -72,7 +72,7 @@ function UserProfile() {
     }
 
     const handleOtpVerification = async (e) => {
-        setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true, isLoading: true}))
+        setFormData(prevState => ({...prevState, errorMessage: '', successMessage: '', disableOtpButton: true, isLoading: true}))
         const verifyOtpFormData = {
           otp: formData.otp,
           sessionId: formData.sessionId
@@ -81,7 +81,6 @@ function UserProfile() {
         const { status, response } = verifyOtpResponseObj
         if(status === SUCCESS_STATUS) {
           setFormData(prevState => ({...prevState, redirect: true}))
-          //props.history.push("/profile");
         }else{
           setFormData(prevState => ({...prevState, errorMessage: response, disableOtpButton: false, isLoading: false}))
         }
@@ -107,11 +106,11 @@ function UserProfile() {
                     <ImageContainer />
                 </div>
                 <div class="col-md-6">
-                    <PersonalInformation />
-                    <ContactInformation />
-                    <AccountInformation />
-                    <AdditionalInformation />
-                    <Identification />
+                    <PersonalInformation profileDetails={formData.profileDetails} />
+                    <ContactInformation profileDetails={formData.profileDetails} />
+                    <AccountInformation profileDetails={formData.profileDetails} />
+                    <AdditionalInformation profileDetails={formData.profileDetails} />
+                    <Identification profileDetails={formData.profileDetails} />
                 </div>
                 <div class="col-md-3">
                     <PhoneNumberVerification 
@@ -121,6 +120,7 @@ function UserProfile() {
                         disableButton={formData.disableOtpButton}
                         otpLength={OTP_LENGTH}
                         isLoading={formData.isLoading}
+                        canVerifyPhone={formData.canEditProfile}
                     />
                     <EditContainer disabled={formData.canEditProfile} />
                 </div>
