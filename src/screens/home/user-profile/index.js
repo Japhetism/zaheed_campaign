@@ -29,7 +29,8 @@ function UserProfile() {
         disableOtpButton: false,
         isLoading: false,
         errorMessage: '',
-        successMessage: ''
+        successMessage: '',
+        editProfile: false,
     })
     
     const getProfileDetails = () => {
@@ -92,6 +93,18 @@ function UserProfile() {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
+    const onEditButtonClick = () => {
+        setFormData({...formData, editProfile: true})
+    }
+
+    const onCancelButtonClick = () => {
+        setFormData({...formData, editProfile: false})
+    }
+
+    const onSaveButtonClick = () => {
+
+    }
+
     return (
         <section>
             <BreadCrumb 
@@ -103,14 +116,14 @@ function UserProfile() {
             />
             <div class="row">
                 <div class="col-md-3">
-                    <ImageContainer />
+                    <ImageContainer profileDetails={formData.profileDetails} />
                 </div>
                 <div class="col-md-6">
-                    <PersonalInformation profileDetails={formData.profileDetails} />
-                    <ContactInformation profileDetails={formData.profileDetails} />
-                    <AccountInformation profileDetails={formData.profileDetails} />
-                    <AdditionalInformation profileDetails={formData.profileDetails} />
-                    <Identification profileDetails={formData.profileDetails} />
+                    <PersonalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
+                    <ContactInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
+                    <AccountInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
+                    <AdditionalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
+                    <Identification profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
                 </div>
                 <div class="col-md-3">
                     <PhoneNumberVerification 
@@ -122,7 +135,13 @@ function UserProfile() {
                         isLoading={formData.isLoading}
                         canVerifyPhone={formData.canEditProfile}
                     />
-                    <EditContainer disabled={formData.canEditProfile} />
+                    <EditContainer 
+                        disabled={formData.canEditProfile} 
+                        editProfile={formData.editProfile} 
+                        onEditButtonClick={onEditButtonClick} 
+                        onCancelButtonClick={onCancelButtonClick}
+                        onSaveButtonClick={onSaveButtonClick}
+                    />
                 </div>
             </div>
         </section>          

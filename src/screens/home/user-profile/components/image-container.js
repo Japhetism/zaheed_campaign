@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-function ImageContainer() {
+function ImageContainer(props) {
     return (
         <React.Fragment>
             <div class="uploaded-profile-photo-container">
-                <img src="../../assets/images/user-profile.jpg" alt="user profile photo" class="uploaded-profile-photo" />
+                <img src={props.profileDetails.profilePhoto} alt="user profile photo" class="uploaded-profile-photo" />
             </div>
         </React.Fragment>
     );
