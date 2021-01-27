@@ -13,8 +13,9 @@ import Cities from '../../fixtures/cities.json'
 import States from '../../fixtures/states.json'
 import Subscriptions from '../../fixtures/subscriptions.json'
 import { convertToMinor } from '../../utils/converter'
+import { userProfile } from '../../mixins/api'
 
-function Profile() {
+function Profile(props) {
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -148,7 +149,8 @@ function Profile() {
     successMessage: null,
     errorMessage: null,
     isLoading: false,
-    isPaymentLoading: false
+    isPaymentLoading: false,
+    disableSaveButton: false
   })
 
   const updateFormData = e => {
@@ -169,6 +171,20 @@ function Profile() {
       return false;
     }else{
       return true
+    }
+  }
+
+  const updateUserProfile = async (e) => {
+    e.preventDefault()
+    setFormData(prevState => ({...prevState, errorMessage: '', disableSaveButton: true, isLoading: true}))
+    const userProfileResponseObj = await userProfile.createUserProfile(formData)
+    const { status, response } = userProfileResponseObj
+    if(status === SUCCESS_STATUS) {
+      setFormData(prevState => ({...prevState, disableSaveButton: true, isLoading: false}))
+      props.history.push("/home");
+    }else{
+      const errorMessage = response ? response : {}
+      setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableSaveButton: false, isLoading: false}))
     }
   }
 
@@ -399,7 +415,7 @@ function Profile() {
               </div>
               <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                  <button type="button" class="btn btn-default-color buttonload">{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Save</button>
+                  <button type="button" class="btn btn-default-color buttonload" onClick={updateUserProfile} disabled={formData.disableSaveButton}>{formData.isLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Save</button>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 payment-button">
                   <button type="button" onClick={ displayRazorpay } class="btn btn-default-color buttonload" disabled={formData.disablePaymentButton}>{formData.isPaymentLoading && <i class="fa fa-circle-o-notch fa-spin"></i>}Proceed to Payment</button>

@@ -22,7 +22,6 @@ export class ApiErrorHandler {
         apiErrorObject.error_message = apiErrorResponse.error || apiErrorResponse.description
         
         apiErrorObject.error_message_to_user = apiErrorObject.error_message;
-
         return apiErrorObject;
     }
 
@@ -33,7 +32,7 @@ export class ApiErrorHandler {
           this._getErrorTypeResponse(parsedApiErrorResponse).error_message_to_user || 
           process.env.REACT_APP_DEFAULT_ERROR_MESSAGE
         );
-        
+
         return errorMessage;
     }
 }

@@ -8,7 +8,7 @@ import Identification from './components/identification'
 import ImageContainer from './components/image-container'
 import EditContainer from './components/edit-container'
 import BreadCrumb from '../../../components/breadcrumb'
-import { retrieveStoredData } from '../../../utils/storage'
+import { retrieveStoredData, saveData } from '../../../utils/storage'
 import PhoneNumberVerification from './components/phone-number-verification'
 import { authentication } from '../../../mixins/api'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../../constants/api'
@@ -36,7 +36,6 @@ function UserProfile() {
     const getProfileDetails = () => {
         const { person } = JSON.parse(retrieveStoredData('userInfo'))
         const { phoneVerified, otpSession } = person
-        console.log(otpSession)
         setFormData({...formData, profileDetails: person, canEditProfile: phoneVerified, sessionId: otpSession})
     }
 
@@ -81,15 +80,16 @@ function UserProfile() {
         const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
         const { status, response } = verifyOtpResponseObj
         if(status === SUCCESS_STATUS) {
-          setFormData(prevState => ({...prevState, redirect: true}))
+          const userInfo = JSON.parse(retrieveStoredData('userInfo'))
+          userInfo.person.phoneVerified = true
+          saveData("userInfo", JSON.stringify(userInfo))
+          setFormData(prevState => ({...prevState, successMessage: 'Your phone number is verified', canEditProfile: true}))
         }else{
           setFormData(prevState => ({...prevState, errorMessage: response, disableOtpButton: false, isLoading: false}))
         }
     }
 
     const updateFormData = e => {
-        console.log(e.target.name)
-        console.log(e.target.value)
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 

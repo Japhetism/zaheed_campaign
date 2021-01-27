@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ApiErrorHandler } from '../utils/error_handler'
 
 function NotificationAlert(props) {
-
   const apiErrorHandler = new ApiErrorHandler();
   
   const firstRender = useRef(true)
