@@ -10,12 +10,12 @@ import EditContainer from './components/edit-container'
 import BreadCrumb from '../../../components/breadcrumb'
 import { retrieveStoredData, saveData } from '../../../utils/storage'
 import PhoneNumberVerification from './components/phone-number-verification'
-import { authentication } from '../../../mixins/api'
+import { authentication, userProfile } from '../../../mixins/api'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../../constants/api'
 import { OTP_LENGTH } from '../../../constants/application'
 import NotificationToast from '../../../components/notification-alert'
 
-function UserProfile() {
+function UserProfile(props) {
     const firstRender = useRef(true)
     const [formData, setFormData] = useState({
         navigationLinks: [
@@ -31,6 +31,66 @@ function UserProfile() {
         errorMessage: '',
         successMessage: '',
         editProfile: false,
+        aadharOrPAN: "",
+        accountType: "",
+        address: "",
+        bloodGroup: "",
+        category: "",
+        dateOfBirth: "",
+        // domain: [
+        //   {
+        //     "domainType": {
+        //       "domains": [
+        //         null
+        //       ],
+        //       "id": 0,
+        //       "name": "string",
+        //       "permissions": [
+        //         {
+        //           "description": "string",
+        //           "enabled": true,
+        //           "id": 0,
+        //           "name": "string"
+        //         }
+        //       ]
+        //     },
+        //     "enabled": true,
+        //     "id": 0,
+        //     "name": "string",
+        //     "persons": [
+        //       null
+        //     ]
+        //   }
+        // ],
+        email: "",
+        fatherOrHusbandsName: "",
+        firstName: "",
+        lastName: "",
+        middleName: "",
+        phoneNumber: "",
+        profilePhoto: "",
+        qualification: "",
+        referrer: 0,
+        saluation: "",
+        sex: "",
+        subscription: "",
+        // subscription": {
+        //   "end": "2020-12-07T16:39:49.778Z",
+        //   "id": 0,
+        //   "start": "2020-12-07T16:39:49.779Z",
+        //   "subscriptionType": {
+        //     "amount": 0,
+        //     "description": "string",
+        //     "duration": "string",
+        //     "id": 0,
+        //     "name": "string",
+        //     "subscriptions": [
+        //       null
+        //     ]
+        //   }
+        // },
+        title: "",
+        disableSaveButton: false
     })
     
     const getProfileDetails = () => {
@@ -101,10 +161,6 @@ function UserProfile() {
         setFormData({...formData, editProfile: false})
     }
 
-    const onSaveButtonClick = () => {
-
-    }
-
     const encodeImageFileAsURL = (element) => {
         var file = element.target.files[0];
         var reader = new FileReader();
@@ -112,6 +168,20 @@ function UserProfile() {
           setFormData({...formData, profilePhoto: reader.result})
         }
         reader.readAsDataURL(file);
+    }
+
+    const updateUserProfile = async (e) => {
+        e.preventDefault()
+        setFormData(prevState => ({...prevState, errorMessage: '', disableSaveButton: true, isLoading: true}))
+        const userProfileResponseObj = await userProfile.createUserProfile(formData)
+        const { status, response } = userProfileResponseObj
+        if(status === SUCCESS_STATUS) {
+          setFormData(prevState => ({...prevState, disableSaveButton: true, isLoading: false}))
+          props.history.push("/home");
+        }else{
+          const errorMessage = response ? response : {}
+          setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableSaveButton: false, isLoading: false}))
+        }
     }
 
     return (
@@ -128,11 +198,11 @@ function UserProfile() {
                     <ImageContainer profileDetails={formData.profileDetails} encodeImageFileAsURL={encodeImageFileAsURL} />
                 </div>
                 <div class="col-md-6">
-                    <PersonalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
-                    <ContactInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
-                    <AccountInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
-                    <AdditionalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
-                    <Identification profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />
+                    <PersonalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} disabled={formData.disableSaveButton} updateFormData={updateFormData} />
+                    <ContactInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} disabled={formData.disableSaveButton} updateFormData={updateFormData} />
+                    <AccountInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} disabled={formData.disableSaveButton} updateFormData={updateFormData} />
+                    <AdditionalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} disabled={formData.disableSaveButton} updateFormData={updateFormData} />
+                    <Identification profileDetails={formData.profileDetails} editProfile={formData.editProfile} disable={formData.disableSaveButton} updateFormData={updateFormData} />
                 </div>
                 <div class="col-md-3">
                     <PhoneNumberVerification 
@@ -149,7 +219,8 @@ function UserProfile() {
                         editProfile={formData.editProfile} 
                         onEditButtonClick={onEditButtonClick} 
                         onCancelButtonClick={onCancelButtonClick}
-                        onSaveButtonClick={onSaveButtonClick}
+                        onSaveButtonClick={updateUserProfile}
+                        disableSaveButton={formData.disableSaveButton}
                     />
                 </div>
             </div>
