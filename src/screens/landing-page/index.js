@@ -95,11 +95,12 @@ function LandingPage(props) {
     const registerResponseObj = await authentication.registerUser(registerFormData)
     const { status, response } = registerResponseObj
     if(status === SUCCESS_STATUS) {
+      saveData("userInfo", JSON.stringify(response.data))
       setShowOtpScreen(true)
       setShowRegisterScreen(false)
       setShowLoginScreen(false)
       setFormData(prevState => ({...prevState, errorMessage: '', disableRegisterButton: true, isLoading: false, sessionId: response.data.otpSession}))
-      saveData("userInfo", JSON.stringify(response.data))
+      handleSendOtp()
     }else{
       const errorMessage = response
       setFormData(prevState => ({...prevState, errorMessage: errorMessage, disableRegisterButton: false, isLoading: false}))
@@ -111,14 +112,15 @@ function LandingPage(props) {
     const sendOtpResponseObj = await authentication.sendOtp(formData.registerUsername)
     const { status, response } = sendOtpResponseObj
     if(status === SUCCESS_STATUS) {
-      setFormData(prevState => ({...prevState, successMessage: "OTP sent successfully"}))
+      const successMessage = `OTP is sent to your phone number ${formData.registerUsername}`
+      setFormData(prevState => ({...prevState, successMessage}))
     }else{
       setFormData(prevState => ({...prevState, errorMessage: response.error}))
     }
   }
 
   const handleOtpVerification = async (e) => {
-    setFormData(prevState => ({...prevState, errorMessage: '', disableOtpButton: true, isLoading: true}))
+    setFormData(prevState => ({...prevState, errorMessage: '', successMessage: '', disableOtpButton: true, isLoading: true}))
     const verifyOtpFormData = {
       otp: formData.otp,
       sessionId: formData.sessionId
@@ -126,8 +128,10 @@ function LandingPage(props) {
     const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
     const { status, response } = verifyOtpResponseObj
     if(status === SUCCESS_STATUS) {
-      setFormData(prevState => ({...prevState, redirect: true}))
-      props.history.push("/profile");
+      setFormData(prevState => ({...prevState, successMessage: 'Your phone number is verified'}))
+      setTimeout(() => {
+        props.history.push("/profile");
+      }, 3000)
     }else{
       setFormData(prevState => ({...prevState, errorMessage: response, disableOtpButton: false, isLoading: false}))
     }

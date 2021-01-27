@@ -83,6 +83,7 @@ svg {
 
 .link-color {
     color: #FA8223;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {

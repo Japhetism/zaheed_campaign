@@ -105,6 +105,15 @@ function UserProfile() {
 
     }
 
+    const encodeImageFileAsURL = (element) => {
+        var file = element.target.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          setFormData({...formData, profilePhoto: reader.result})
+        }
+        reader.readAsDataURL(file);
+    }
+
     return (
         <section>
             <BreadCrumb 
@@ -116,7 +125,7 @@ function UserProfile() {
             />
             <div class="row">
                 <div class="col-md-3">
-                    <ImageContainer profileDetails={formData.profileDetails} />
+                    <ImageContainer profileDetails={formData.profileDetails} encodeImageFileAsURL={encodeImageFileAsURL} />
                 </div>
                 <div class="col-md-6">
                     <PersonalInformation profileDetails={formData.profileDetails} editProfile={formData.editProfile} updateFormData={updateFormData} />

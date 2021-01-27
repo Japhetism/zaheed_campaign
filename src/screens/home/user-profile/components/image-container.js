@@ -7,6 +7,10 @@ function ImageContainer(props) {
             <div class="uploaded-profile-photo-container">
                 <img src={props.profileDetails.profilePhoto} alt="user profile photo" class="uploaded-profile-photo" />
             </div>
+            {props.editProfile && <div>
+                <input type="file" id="actual-btn" style={{display: 'none'}} onChange={ event => props.encodeImageFileAsURL }/><br/>
+                <label class="profile-label" for="actual-btn">Profile Photo</label>
+            </div>}
         </React.Fragment>
     );
 }
