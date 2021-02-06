@@ -5,7 +5,7 @@ import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
 import { stripHyphenFromString } from '../../utils/helper'
 import { checkPhoneIsValid, checkPasswordIsValid } from '../../utils/validator'
-import { saveData } from '../../utils/storage'
+import { saveData, retrieveStoredData } from '../../utils/storage'
 
 function LandingPage(props) {
 
@@ -24,7 +24,7 @@ function LandingPage(props) {
     sessionId: '',
     disableLoginButton: true,
     disableRegisterButton: true,
-    disableOtpButton: false,
+    disableOtpButton: true,
     redirect: false,
     isLoading: false,
     isLoginUsernameValid: false,
@@ -66,13 +66,21 @@ function LandingPage(props) {
     }
   }
 
+  const otpFormValidation = () => {
+    if(formData.otp) {
+      return false
+    }else{
+      return true
+    }
+  }
+
   const handleLoginFormSubmission = async (e) => {
-    e.preventDefault()
     setFormData(prevState => ({...prevState, errorMessage: '', disableLoginButton: true, isLoading: true}))
     const loginFormData = {
       password: formData.loginPassword,
       phoneNumber: stripHyphenFromString(formData.loginUsername)
     }
+    saveData("userInfo", JSON.stringify(loginFormData))
     const loginResponseObj = await authentication.loginUser(loginFormData)
     const { status, response } = loginResponseObj
     if(status === SUCCESS_STATUS) {
@@ -126,8 +134,13 @@ function LandingPage(props) {
       sessionId: formData.sessionId
     }
     const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
+    console.log(verifyOtpResponseObj)
     const { status, response } = verifyOtpResponseObj
+    console.log(response)
     if(status === SUCCESS_STATUS) {
+      let userInfo = JSON.parse(retrieveStoredData('userInfo'))
+      userInfo.person.phoneVerified = true
+      saveData("userInfo", JSON.stringify(userInfo))
       setFormData(prevState => ({...prevState, successMessage: 'Your phone number is verified'}))
       setTimeout(() => {
         props.history.push("/profile");
@@ -151,11 +164,12 @@ function LandingPage(props) {
       ...prevState, 
       disableLoginButton: loginFormValidation() || !checkPhoneIsValid(stripHyphenFromString(formData.loginUsername)), 
       disableRegisterButton: registerFormValidation() || !checkPhoneIsValid(stripHyphenFromString(formData.registerUsername)) || !checkPasswordIsValid(formData.registerPassword),
+      disableOtpButton: otpFormValidation(),
       isLoginUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.loginUsername)),
       isRegisterUsernameValid: checkPhoneIsValid(stripHyphenFromString(formData.registerUsername)),
       isPasswordValid: checkPasswordIsValid(formData.registerPassword)
     }))
-  }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername])
+  }, [formData.loginUsername, formData.loginPassword, formData.registerPassword, formData.registerUsername, formData.otp])
 
   return (
     <div>

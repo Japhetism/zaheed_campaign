@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../constants/api'
 import NotificationToast from '../../components/notification-alert'
-import { retrieveStoredData } from '../../utils/storage'
+import { retrieveStoredData, saveData } from '../../utils/storage'
 import Salutations from '../../fixtures/salutations.json'
 import AccountTypes from '../../fixtures/account-types.json'
 import BloodGroups from '../../fixtures/blood-groups.json'
@@ -180,6 +180,9 @@ function Profile(props) {
     const userProfileResponseObj = await userProfile.createUserProfile(formData)
     const { status, response } = userProfileResponseObj
     if(status === SUCCESS_STATUS) {
+      let userInfo = JSON.parse(retrieveStoredData('userInfo'))
+      userInfo.person = response.data
+      saveData("userInfo", JSON.stringify(userInfo))
       setFormData(prevState => ({...prevState, disableSaveButton: true, isLoading: false}))
       props.history.push("/home");
     }else{
