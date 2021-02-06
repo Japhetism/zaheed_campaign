@@ -1,7 +1,12 @@
-export function phoneNumberFormatter (phoneNumber) {
-    if(phoneNumber.startsWith('0')) {
-      return formatPhoneNumberWithCountryCode('234', phoneNumber)
-    }else{
-      return phoneNumber
+export function checkPhoneIsValid (phone) {
+  if (phone.startsWith('+91') && phone.length === 13) {
+    return true
+  }
+  if (phone.startsWith('91') && phone.length === 12) {
+      return true
     }
+  if (phone.length === 10) {
+    return true
+  }
+  return false
 }

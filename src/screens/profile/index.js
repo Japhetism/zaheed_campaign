@@ -14,6 +14,7 @@ import States from '../../fixtures/states.json'
 import Subscriptions from '../../fixtures/subscriptions.json'
 import { convertToMinor } from '../../utils/converter'
 import { userProfile } from '../../mixins/api'
+import { stripCountryCode } from '../../utils/helper'
 
 function Profile(props) {
   const loadScript = (src) => {
@@ -31,6 +32,7 @@ function Profile(props) {
   }
 
   const displayRazorpay = async () => {
+    console.log(`${stripCountryCode(formData.phoneNumber)}`)
     setFormData(prevState => ({...prevState, errorMessage: '', disablePaymentButton: true, isPaymentLoading: true}))
     let errorMessage = ""
     const res = await loadScript(
@@ -55,7 +57,7 @@ function Profile(props) {
       amount: amount.toString(),
       currency: currency,
       name: "Brigade Congress.",
-      description: "Subscription Payment",
+      description: `Subscription Payment (${formData.subscriptionType})`,
       image: { logo },
       order_id: order_id,
       handler: async function (response) {
@@ -70,7 +72,7 @@ function Profile(props) {
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`,
         email: `${formData.email}`,
-        contact: `${formData.phoneNumber}`,
+        contact: `${stripCountryCode(formData.phoneNumber)}`,
       },
       notes: {
         address: `${formData.houseNumber}, ${formData.buildingName}, ${formData.street}, ${formData.city}`,
@@ -129,6 +131,7 @@ function Profile(props) {
     saluation: "",
     sex: "",
     subscription: "",
+    subscriptionType: "",
     // subscription": {
     //   "end": "2020-12-07T16:39:49.778Z",
     //   "id": 0,
@@ -154,7 +157,13 @@ function Profile(props) {
   })
 
   const updateFormData = e => {
-    setFormData({...formData, [e.target.name]: e.target.value})
+    if(e.target.name === "subscription") {
+      const value = e.target.value
+      const subscriptionDetails = value.split("-") 
+      setFormData({...formData, subscription: parseFloat(subscriptionDetails[0]), subscriptionType: subscriptionDetails[1]})
+    }else{
+      setFormData({...formData, [e.target.name]: e.target.value})
+    }
   }
 
   const encodeImageFileAsURL = (element) => {
@@ -197,7 +206,7 @@ function Profile(props) {
       if(!retrievedUserInfo) {
         setRedirectToLogin(true)
       }else{
-        setFormData(prevState => ({ ...prevState, phoneNumber: retrievedUserInfo.phoneNumber}))
+        setFormData(prevState => ({ ...prevState, phoneNumber: retrievedUserInfo.username}))
       }
       firstRender.current = false
       return
@@ -274,7 +283,7 @@ function Profile(props) {
               <div class="form-group row">
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Phone Number</label>
-                  <input type="tel" placeholder="+91-4500-67800" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" defaultValue={formData.phoneNumber} disabled={true} class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" onChange={updateFormData}/>
+                  <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{6}" defaultValue={formData.phoneNumber} disabled={true} class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="emailHelp" onChange={updateFormData}/>
                 </div>
                 <div class="col-lg-4">
                   <label for="exampleInputEmail1">Password</label>
@@ -408,7 +417,7 @@ function Profile(props) {
                   <label for="exampleInputEmail1">Subscription Type</label>
                   <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
-                    {Subscriptions.map(value=><option value={value.price}>{value.name} - &#8377;{value.price}</option>)}
+                    {Subscriptions.map(value=><option value={`${value.price}-${value.name}`}>{value.name} - &#8377;{value.price}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">
