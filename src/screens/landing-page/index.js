@@ -134,9 +134,7 @@ function LandingPage(props) {
       sessionId: formData.sessionId
     }
     const verifyOtpResponseObj = await authentication.verifyOtp(verifyOtpFormData)
-    console.log(verifyOtpResponseObj)
     const { status, response } = verifyOtpResponseObj
-    console.log(response)
     if(status === SUCCESS_STATUS) {
       let userInfo = JSON.parse(retrieveStoredData('userInfo'))
       userInfo.person.phoneVerified = true

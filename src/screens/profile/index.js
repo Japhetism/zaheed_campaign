@@ -32,7 +32,8 @@ function Profile(props) {
   }
 
   const displayRazorpay = async () => {
-    console.log(`${stripCountryCode(formData.phoneNumber)}`)
+    let orderId = null
+    let paymentId = null
     setFormData(prevState => ({...prevState, errorMessage: '', disablePaymentButton: true, isPaymentLoading: true}))
     let errorMessage = ""
     const res = await loadScript(
@@ -68,6 +69,8 @@ function Profile(props) {
           razorpaySignature: response.razorpay_signature,
         };
         const result = await axios.post("https://zabass-campaign-payment.herokuapp.com/payment/success", data);
+        const { data: { paymentId, orderId } } = result
+        setFormData({...formData, paymentId, orderId})
       },
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`,
@@ -88,6 +91,8 @@ function Profile(props) {
   const firstRender = useRef(true)
   const [redirectToLogin, setRedirectToLogin] = useState(false)
   const [formData, setFormData] = useState({
+    paymentId: "",
+    orderId: "",
     aadharOrPAN: "",
     accountType: "",
     address: "",
@@ -213,7 +218,7 @@ function Profile(props) {
     }
     
     setFormData(prevState => ({ ...prevState, disablePaymentButton: formValidation()}))
-  }, [formData.email, formData.firstName, formData.lastName, formData.email, formData.phoneNumber])
+  }, [formData.email, formData.firstName, formData.lastName, formData.email, formData.phoneNumber, formData.subscription])
 
   if(redirectToLogin) {
     return <Redirect to="/login" />
