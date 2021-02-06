@@ -42,7 +42,7 @@ function Profile(props) {
       setFormData({...formData, errorMessage: errorMessage})
       return;
     }
-    const result = await axios.post("http://localhost:5000/payment/orders", {amount: convertToMinor(formData.subscription)});
+    const result = await axios.post("https://zabass-campaign-payment.herokuapp.com/payment/orders", {amount: convertToMinor(formData.subscription)});
     if (!result) {
       errorMessage = "An error occurred, please try again"
       alert(errorMessage)
@@ -65,7 +65,7 @@ function Profile(props) {
           razorpayOrderId: response.razorpay_order_id,
           razorpaySignature: response.razorpay_signature,
         };
-        const result = await axios.post("http://localhost:5000/payment/success", data);
+        const result = await axios.post("https://zabass-campaign-payment.herokuapp.com/payment/success", data);
       },
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`,
