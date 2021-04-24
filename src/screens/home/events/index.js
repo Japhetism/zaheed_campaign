@@ -1,27 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import EventsTable from './components/events-table'
-import BreadCrumb from '../../../components/breadcrumb'
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Redirect
+} from 'react-router-dom'
+import EventGrid from './views/events-grid'
+import AddEvent from './views/add-event'
+import ViewEvent from './views/view-event'
 
-function Events() {
-    const [formData, setFormData] = useState({
-        navigationLinks: [
-            {name: 'Home', to: '/home', isActive: false},
-            {name: 'Events', to: '/home/events', isActive: true}
-        ]
-    })
+function EventScreen() {
     return (
-        <section>
-            <BreadCrumb 
-                links={formData.navigationLinks}
-            />
-            <div class="row">
-                <div class="col-md-12">
-                    <EventsTable />
-                </div>
-            </div>
-        </section> 
+        <Router>
+            <Switch>
+                <Route exact path="/home/events" component={EventGrid} />
+                <Route exact path="/home/events/add" component={AddEvent} />
+                <Route exact path="/home/events/view" component={ViewEvent} />
+            </Switch>
+        </Router>                    
     );
 }
 
-export default Events;
+export default EventScreen;

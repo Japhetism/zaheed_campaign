@@ -38,7 +38,7 @@ function Header() {
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <h5 class="dropdown-item align-item-center text-bold notification-text">Notifications</h5>
-                                    {formData.notifications.map(value => <li class="dropdown-item"><i class="fa fa-circle"></i>{`${value}.`}</li>)}
+                                    {formData.notifications.map(value => <li class="dropdown-item" key={value}><i class="fa fa-circle"></i>{`${value}.`}</li>)}
                                 </div>
                             </div>
                         </li>
