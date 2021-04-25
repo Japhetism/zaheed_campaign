@@ -33,7 +33,7 @@ function ViewSubscription() {
     const onUpdateButtonClick = async () => {
         console.log("Subscription form data ", subscriptionFormData)
         setFormData(prevState => ({...prevState, errorMessage: '', successMessage: '', disableUpdateButton: true, isLoading: true}))
-        const subscriptionResponseObj = await subscriptionsService.updateSubscription(subscriptionFormData)
+        const subscriptionResponseObj = await subscriptionsService.updateSubscription(params.id, subscriptionFormData)
         const { status, response } = subscriptionResponseObj
         if(status === SUCCESS_STATUS) {
           setFormData(prevState => ({...prevState, successMessage: "Subscription update successfully", disableUpdateButton: false, isLoading: false}))
@@ -65,9 +65,18 @@ function ViewSubscription() {
         setFormData(prevState => ({...prevState, showEditButton: false, disabledField: false}))
     }
 
+    const formValidation = () => {
+        if(subscriptionFormData.name && subscriptionFormData.desc && subscriptionFormData.amount && subscriptionFormData.fee && subscriptionFormData.validity && subscriptionFormData.time_unit) {
+          return false;
+        }else{
+          return true
+        }
+    }
+
     useEffect(() => {
         getSubscription(params.id)
         console.log("url id passed ", params)
+        setFormData(prevState => ({ ...prevState, disableUpdateButton: formValidation()}))
     }, [])
 
     return (

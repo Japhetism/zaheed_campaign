@@ -15,7 +15,7 @@ function AddSubscription() {
     const [formData, setFormData] = useState({
         errorMessage: '',
         successMessage: '',
-        disableSaveButton: false,
+        disableSaveButton: true,
         isLoading: false
     })
     const [subscriptionFormData, setSubscriptionFormData] = useState([])
@@ -36,6 +36,18 @@ function AddSubscription() {
           setFormData(prevState => ({...prevState, errorMessage: response.error, disableSaveButton: false, isLoading: false}))
         }
     }
+
+    const formValidation = () => {
+        if(subscriptionFormData.name && subscriptionFormData.desc && subscriptionFormData.amount && subscriptionFormData.fee && subscriptionFormData.validity && subscriptionFormData.time_unit) {
+          return false;
+        }else{
+          return true
+        }
+    }
+
+    useEffect(() => {
+        setFormData(prevState => ({ ...prevState, disableSaveButton: formValidation()}))
+    }, [subscriptionFormData])
     
     return (
         <section>
