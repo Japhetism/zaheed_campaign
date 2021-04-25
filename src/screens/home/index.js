@@ -13,6 +13,7 @@ import UserProfileScreen from './user-profile'
 import AccountSettingsScreen from './account-settings'
 import DomainScreen from './domains'
 import EventScreen from './events'
+import SubscriptionScreen from './subscriptions'
 
 function HomeScreen() {
     return (
@@ -27,6 +28,7 @@ function HomeScreen() {
                         <Route path="/home/account-settings" component={AccountSettingsScreen} />
                         <Route path="/home/domains" component={DomainScreen} />
                         <Route path="/home/events" component={EventScreen} />
+                        <Route path="/home/subscriptions" component={SubscriptionScreen} />
                     </Switch>
                 </div>
             </Router>                    

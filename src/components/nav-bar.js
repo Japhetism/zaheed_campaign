@@ -9,7 +9,7 @@ function NavBar() {
                 <hr/>
             </div>
             <ul class="list-unstyled components">
-                <li class="active">
+                <li>
                     <Link to="/home">Home</Link>
                 </li>
                 <li>
@@ -17,6 +17,9 @@ function NavBar() {
                 </li>
                 <li>
                     <Link to="/home/events">Events</Link>
+                </li>
+                <li>
+                    <Link to="/home/subscriptions">Subscriptions</Link>
                 </li>
             </ul>
         </nav>
