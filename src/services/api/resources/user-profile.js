@@ -1,6 +1,6 @@
 import Requester from '../requester'
 
-const API_BASE_URL = process.env.REACT_APP_USER_PROFILE
+const API_BASE_URL = process.env.REACT_APP_BASE_URL
 
 export default class UserProfile {
     constructor(props) {
@@ -17,7 +17,7 @@ export default class UserProfile {
 
     createUserProfile (data) {
         return this.apiRequester.post({
-            endpoint: 'new',
+            endpoint: 'persons/new',
             body: data
         })
     }

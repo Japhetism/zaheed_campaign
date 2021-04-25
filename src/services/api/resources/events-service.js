@@ -1,6 +1,6 @@
 import Requester from '../requester'
 
-const API_BASE_URL = process.env.REACT_APP_EVENTS_SERVICE
+const API_BASE_URL = process.env.REACT_APP_BASE_URL
 
 export default class EventsService {
     constructor(props) {
@@ -17,8 +17,14 @@ export default class EventsService {
 
     addEvent (payload) {
         return this.apiRequester.post({
-            endpoint: '',
+            endpoint: 'events',
             body: payload
+        })
+    }
+
+    getDomainEvents (domainId) {
+        return this.apiRequester.get({
+            endpoint: `events/domains/${domainId}`
         })
     }
 }

@@ -17,11 +17,21 @@ function AddEvent() {
         disableSaveButton: false,
         isLoading: false
     })
-    const [eventFormData, setEventFormData] = useState([])
+    const [eventFormData, setEventFormData] = useState({
+        domain: []
+    })
 
     const updateFormData = (event) => {
         console.log("update form data ", event.target.name + " - " + event.target.value)
-        setEventFormData({...eventFormData, [event.target.name]: event.target.value})
+        let domainList = {}
+        let selectedDomains = eventFormData.domain;
+        if (event.target.name === "domain") {
+            domainList.id = event.target.value
+            selectedDomains.push(domainList)
+            setEventFormData({...eventFormData, [event.target.name]: selectedDomains})
+        } else {
+            setEventFormData({...eventFormData, [event.target.name]: event.target.value})
+        }
     }
 
     const onSaveButtonClick = async () => {

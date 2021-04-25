@@ -1,6 +1,6 @@
 import Requester from '../requester'
 
-const API_BASE_URL = process.env.REACT_APP_AUTHENTICATION
+const API_BASE_URL = process.env.REACT_APP_BASE_URL
 
 export default class Authentication {
     constructor(props) {
@@ -17,42 +17,42 @@ export default class Authentication {
 
     loginUser (data) {
         return this.apiRequester.post({
-        endpoint: 'login',
+        endpoint: 'auth/login',
         body: data
         })
     }
 
     registerUser (data) {
         return this.apiRequester.post({
-          endpoint: 'new',
+          endpoint: 'auth/new',
           body: data
         })
     }
 
     sendOtp (data) {
         return this.apiRequester.get({
-          endpoint: 'otp',
+          endpoint: 'auth/otp',
           body: data
         })
     }
 
     verifyOtp (data) {
         return this.apiRequester.post({
-            endpoint: 'verify-otp',
+            endpoint: 'auth/verify-otp',
             body: data
         })
     }
 
     forgotPassword (data) {
         return this.apiRequester.post({
-            endpoint: 'forgot-password',
+            endpoint: 'auth/forgot-password',
             body: data
         })
     }
 
     resetPassword (data) {
         return this.apiRequester.post({
-            endpoint: 'reset-password',
+            endpoint: 'auth/reset-password',
             body: data
         })
     }
