@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import HeadedCard from '../../../../components/headed-card'
-import { formatDate } from '../../../../utils/formatter'
 
 function SubscriptionsTable({ data }) {
     console.log("table data ", data)
@@ -29,7 +28,7 @@ function SubscriptionsTable({ data }) {
                 <td>{subscription.validity}</td>
                 <td>{subscription.time_unit}</td>
                 <td><span class={`${subscription.enabled ? 'badge badge-success' : 'badge badge-danger'}`}>{subscription.enabled ? 'Active' : 'Inactive'}</span></td>
-                <td><button type="button" class="btn btn-primary btn-sm">View</button></td>
+                <td><button type="button" class="btn btn-primary btn-sm"><Link to={`/home/subscriptions/view/${subscription.id}`}>View</Link></button></td>
             </tr>)}
         </tbody>
     </table>

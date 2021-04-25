@@ -422,7 +422,7 @@ function Profile(props) {
                   <label for="exampleInputEmail1">Subscription Type</label>
                   <select class="form-control" id="subscription" name="subscription" aria-describedby="emailHelp" placeholder="" onChange={updateFormData}>
                     <option>Select</option>
-                    {Subscriptions.map(value=><option value={`${value.price}-${value.name}`}>{value.name} - &#8377;{value.price}</option>)}
+                    {Subscriptions.map(value=><option value={`${value.amount+value.fee}-${value.name}`}>{value.name} - &#8377;{(value.amount+value.fee)}</option>)}
                   </select>
                 </div>
                 <div class="col-lg-4">

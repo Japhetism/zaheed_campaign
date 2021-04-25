@@ -14,7 +14,7 @@ function AccountInformation(props) {
                     {props.editProfile && <div class="col-lg-8">
                         <select class="form-control" id="subscription" name="subscription" disabled={props.disabled} defaultValue={props.profileDetails.subscription} onChange={props.updateFormData}>
                             <option selected disabled>Select</option>
-                            {Subscriptions.map(value => <option value={value.value}>{value.name}</option>)}
+                            {Subscriptions.map(value => <option value={value.amount+value.fee}>{value.name}</option>)}
                         </select>
                     </div>}
                 </div>

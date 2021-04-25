@@ -1,5 +1,6 @@
 [
-    {"name": "Standard", "price": 50},
-    {"name": "Regular", "price": 100},
-    {"name": "Premium", "price": 150}
+    {"id": 1, "name": "Basic", "desc": "This is a basic plan with limited options", "amount": 1000, "fee": 100, "validity": "30", "time_unit": "month", "enabled": true},
+    {"id": 2, "name": "Regular", "desc": "This is a regular plan with few options", "amount": 3000, "fee": 300, "validity": "30", "time_unit": "month", "enabled": true},
+    {"id": 3, "name": "Standard", "desc": "This is a standard plan with some options", "amount": 7000, "fee": 700, "validity": "30", "time_unit": "month", "enabled": true},
+    {"id": 4, "name": "Premium", "desc": "This is a premium plan with full options", "amount": 10000, "fee": 1000, "validity": "30", "time_unit": "month", "enabled": true}
 ]

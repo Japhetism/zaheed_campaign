@@ -16,7 +16,7 @@ function SubscriptionScreen() {
             <Switch>
                 <Route exact path="/home/subscriptions" component={SubscriptionGrid} />
                 <Route exact path="/home/subscriptions/add" component={AddSubscription} />
-                <Route exact path="/home/subscriptions/view" component={ViewSubscription} />
+                <Route exact path="/home/subscriptions/view/:id" component={ViewSubscription} />
             </Switch>
         </Router>                    
     );

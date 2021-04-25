@@ -4,6 +4,7 @@ import SubscriptionsForm from '../components/subscriptions-form'
 import BreadCrumb from '../../../../components/breadcrumb'
 import { subscriptionsService } from '../../../../mixins/api'
 import { SUCCESS_STATUS, ERROR_STATUS } from '../../../../constants/api'
+import NotificationToast from '../../../../components/notification-alert'
 
 function AddSubscription() {
     const navigationLinks = [
@@ -43,11 +44,17 @@ function AddSubscription() {
             />
             <div class="row">
                 <div class="col-md-12">
+                    <NotificationToast 
+                        successMessage={formData.successMessage}
+                        errorMessage={formData.errorMessage}
+                    />
                     <SubscriptionsForm 
                         onChange={updateFormData}
                         onSubmit={onSaveButtonClick}
                         isLoading={formData.isLoading}
-                        disable={formData.disableSaveButton}
+                        disableButton={formData.disableSaveButton}
+                        title="New Subscription"
+                        data={subscriptionFormData}
                     />
                 </div>
             </div>

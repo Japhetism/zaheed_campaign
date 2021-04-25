@@ -22,9 +22,22 @@ export default class SubscriptionsService {
         })
     }
 
-    getAllSubscriptions () {
+    getSubscriptions () {
         return this.apiRequester.get({
             endpoint: 'subscriptions'
+        })
+    }
+
+    getSubscription (subscriptionId) {
+        return this.apiRequester.get({
+            endpoint: `subscriptions/${subscriptionId}`
+        })
+    }
+
+    updateSubscription (subscriptionId, payload) {
+        return this.apiRequester.put({
+            endpoint: `subscriptions/${subscriptionId}`,
+            body: payload
         })
     }
 }
